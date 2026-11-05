@@ -3,9 +3,8 @@ session_start();
 
 include '../config/db.php';
 
-
-if ($_SESSION['role'] !== "super_admin") {
-    header("Location: login.php");
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
+    header('Location: login.php');
     exit;
 }
 ?>
@@ -108,124 +107,10 @@ include '../includes/sidebar.php';
             </section>
 
             <!-- Charts -->
-            <section class="row g-3 mb-4">
-                <div class="col-lg-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h2 class="h6 fw-bold m-0">Monthly Bookings</h2>
-                                <select class="form-select form-select-sm w-auto" aria-label="Year">
-                                    <option>2026</option>
-                                    <option>2025</option>
-                                </select>
-                            </div>
-                            <canvas id="bookingsChart" height="220"></canvas>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="card h-100">
-                        <div class="card-body">
-                            <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h2 class="h6 fw-bold m-0">Revenue Overview (৳ Lakh)</h2>
-                                <select class="form-select form-select-sm w-auto" aria-label="Year">
-                                    <option>2026</option>
-                                    <option>2025</option>
-                                </select>
-                            </div>
-                            <canvas id="revenueChart" height="220"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </section>
+           
 
             <!-- Recent Bookings -->
-            <section class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h2 class="h6 fw-bold m-0">Recent Bookings</h2>
-                        <a href="bookings.html" class="small fw-semibold text-decoration-none">View all</a>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table align-middle table-hover mb-0" id="bookingsTable">
-                            <thead class="table-light">
-                                <tr>
-                                    <th>Booking ID</th>
-                                    <th>Passenger</th>
-                                    <th>Company</th>
-                                    <th>Route</th>
-                                    <th>Date</th>
-                                    <th>Seats</th>
-                                    <th>Amount</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="fw-semibold">BT20261031-A7F2</td>
-                                    <td>Rahim Uddin</td>
-                                    <td>Hanif Enterprise</td>
-                                    <td>Dhaka → Chattogram</td>
-                                    <td>31 Oct 2026</td>
-                                    <td>A1, A2</td>
-                                    <td>৳ 1,700</td>
-                                    <td><span class="badge text-bg-success">Confirmed</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-semibold">BT20261031-C91B</td>
-                                    <td>Nusrat Jahan</td>
-                                    <td>Shyamoli Paribahan</td>
-                                    <td>Dhaka → Sylhet</td>
-                                    <td>31 Oct 2026</td>
-                                    <td>B3</td>
-                                    <td>৳ 900</td>
-                                    <td><span class="badge text-bg-success">Confirmed</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-semibold">BT20261030-4D0E</td>
-                                    <td>Tanvir Ahmed</td>
-                                    <td>Ena Transport</td>
-                                    <td>Dhaka → Khulna</td>
-                                    <td>30 Oct 2026</td>
-                                    <td>C2, C3, C4</td>
-                                    <td>৳ 3,300</td>
-                                    <td><span class="badge text-bg-warning">Pending</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-semibold">BT20261030-9E13</td>
-                                    <td>Sumaiya Akter</td>
-                                    <td>Green Line</td>
-                                    <td>Dhaka → Cox's Bazar</td>
-                                    <td>30 Oct 2026</td>
-                                    <td>A5</td>
-                                    <td>৳ 1,500</td>
-                                    <td><span class="badge text-bg-success">Confirmed</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-semibold">BT20261029-71AB</td>
-                                    <td>Mahmudul Hasan</td>
-                                    <td>Soudia Coach</td>
-                                    <td>Dhaka → Rajshahi</td>
-                                    <td>29 Oct 2026</td>
-                                    <td>D1, D2</td>
-                                    <td>৳ 1,800</td>
-                                    <td><span class="badge text-bg-danger">Cancelled</span></td>
-                                </tr>
-                                <tr>
-                                    <td class="fw-semibold">BT20261029-3C58</td>
-                                    <td>Farhana Islam</td>
-                                    <td>Hanif Enterprise</td>
-                                    <td>Dhaka → Barishal</td>
-                                    <td>29 Oct 2026</td>
-                                    <td>B6</td>
-                                    <td>৳ 650</td>
-                                    <td><span class="badge text-bg-success">Confirmed</span></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </section>
+            
         </main>
     </div>
 

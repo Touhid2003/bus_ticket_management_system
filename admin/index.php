@@ -1,19 +1,14 @@
 <?php
 session_start();
-include '../config/db.php';
-
-
-
-
-?>
-<!DOCTYPE html>
+require_once '../config/db.php';
+?><!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="assets/css/login.css">
+    <link rel="stylesheet" href="../assets/css/login.css">
     <title>Modern Login Page | AsmrProg</title>
 </head>
 
@@ -37,7 +32,7 @@ if(isset($_POST['login'])){
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
 
-                header("Location: ../admin/dashboard.php");
+                header("Location: dashboard.php");
                 exit;
 
             }else {
@@ -86,7 +81,7 @@ if(isset($_POST['login'])){
                     <button class="hidden" id="login">Sign In</button>
                 </div>
                 <div class="toggle-panel toggle-right">
-                    <img src="assets/images/bus1.jpg" alt="" srcset="">
+                    <img src="../assets/images/bus1.jpg" alt="" srcset="">
                 </div>
             </div>
         </div>

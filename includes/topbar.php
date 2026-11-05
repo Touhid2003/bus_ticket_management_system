@@ -1,7 +1,7 @@
 <nav class="navbar topbar bg-white border-bottom sticky-top px-3">
   <div class="d-flex align-items-center gap-2">
    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold m-0 text-decoration-none"
-   href="../admin/dashboard.php">
+   href="dashboard.php">
 
     <img src="../assets/images/logo" alt="BusGo Logo" width="30" height="30" class="d-inline-block align-text-top">
 
