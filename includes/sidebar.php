@@ -12,5 +12,5 @@
         <a class="nav-link" href="reports.html"><i class="bi bi-bar-chart-line"></i>Reports</a>
         <a class="nav-link" href="settings.html"><i class="bi bi-sliders"></i>Settings</a>
     </nav>
-    <a class="nav-link logout mt-auto" href="logout.html"><i class="bi bi-box-arrow-right"></i>Logout</a>
+    
 </aside>

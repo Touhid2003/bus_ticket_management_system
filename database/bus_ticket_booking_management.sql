@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.3
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Nov 02, 2026 at 07:06 PM
--- Server version: 10.4.32-MariaDB
--- PHP Version: 8.2.12
+-- Host: localhost:3306
+-- Generation Time: Nov 05, 2026 at 03:15 AM
+-- Server version: 8.4.3
+-- PHP Version: 8.3.33
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,12 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `bookings` (
-  `booking_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `schedule_id` int(11) NOT NULL,
+  `booking_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `schedule_id` int NOT NULL,
   `booking_date` datetime NOT NULL,
   `total_amount` decimal(10,2) NOT NULL,
-  `booking_status` enum('pending','confirmed','cancelled') NOT NULL
+  `booking_status` enum('pending','confirmed','cancelled') COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -43,11 +43,11 @@ CREATE TABLE `bookings` (
 --
 
 CREATE TABLE `booking_seats` (
-  `booking_seats` int(11) NOT NULL,
-  `booking_id` int(11) NOT NULL,
-  `seat_id` int(11) NOT NULL,
-  `passenger_name` varchar(100) NOT NULL,
-  `passenger_phone` int(20) NOT NULL,
+  `booking_seats` int NOT NULL,
+  `booking_id` int NOT NULL,
+  `seat_id` int NOT NULL,
+  `passenger_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `passenger_phone` int NOT NULL,
   `seat_price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -58,13 +58,13 @@ CREATE TABLE `booking_seats` (
 --
 
 CREATE TABLE `buses` (
-  `bus_id` int(11) NOT NULL,
-  `company_id` int(11) NOT NULL,
-  `bus_name` varchar(100) NOT NULL,
-  `bus_type` varchar(50) NOT NULL,
-  `total_seats` int(11) NOT NULL,
-  `status` enum('active','inactive') NOT NULL,
-  `bus_number` varchar(50) NOT NULL
+  `bus_id` int NOT NULL,
+  `company_id` int NOT NULL,
+  `bus_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `bus_type` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `total_seats` int NOT NULL,
+  `status` enum('active','inactive') COLLATE utf8mb4_general_ci NOT NULL,
+  `bus_number` varchar(50) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -74,13 +74,13 @@ CREATE TABLE `buses` (
 --
 
 CREATE TABLE `bus_companies` (
-  `company_id` int(11) NOT NULL,
-  `company_name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `address` text NOT NULL,
-  `status` enum('active','inactive') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `company_id` int NOT NULL,
+  `company_name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `address` text COLLATE utf8mb4_general_ci NOT NULL,
+  `status` enum('active','inactive') COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -90,13 +90,13 @@ CREATE TABLE `bus_companies` (
 --
 
 CREATE TABLE `cancellations` (
-  `cancellation_id` int(11) NOT NULL,
-  `booking_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  `reason` text NOT NULL,
+  `cancellation_id` int NOT NULL,
+  `booking_id` int NOT NULL,
+  `user_id` int NOT NULL,
+  `reason` text COLLATE utf8mb4_general_ci NOT NULL,
   `cancellation_charge` decimal(10,2) NOT NULL,
   `refund_amount` decimal(10,2) NOT NULL,
-  `cancellation_status` enum('pending','approved','rejected') NOT NULL,
+  `cancellation_status` enum('pending','approved','rejected') COLLATE utf8mb4_general_ci NOT NULL,
   `requested_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -107,12 +107,12 @@ CREATE TABLE `cancellations` (
 --
 
 CREATE TABLE `payments` (
-  `payment_id` int(11) NOT NULL,
-  `booking_id` int(11) NOT NULL,
-  `payment_method` varchar(50) NOT NULL,
-  `transaction_id` varchar(100) NOT NULL,
+  `payment_id` int NOT NULL,
+  `booking_id` int NOT NULL,
+  `payment_method` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `transaction_id` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `amount` decimal(10,2) NOT NULL,
-  `payment_status` enum('pending','paid','failed') NOT NULL,
+  `payment_status` enum('pending','paid','failed') COLLATE utf8mb4_general_ci NOT NULL,
   `payment_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -123,13 +123,13 @@ CREATE TABLE `payments` (
 --
 
 CREATE TABLE `refunds` (
-  `refund_id` int(11) NOT NULL,
-  `booking_id` int(11) NOT NULL,
-  `cancellation_id` int(11) NOT NULL,
+  `refund_id` int NOT NULL,
+  `booking_id` int NOT NULL,
+  `cancellation_id` int NOT NULL,
   `refund_amount` decimal(10,2) NOT NULL,
-  `refund_method` varchar(50) NOT NULL,
-  `transaction_id` varchar(100) NOT NULL,
-  `refund_status` enum('pending','processing','completed','failed') NOT NULL,
+  `refund_method` varchar(50) COLLATE utf8mb4_general_ci NOT NULL,
+  `transaction_id` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `refund_status` enum('pending','processing','completed','failed') COLLATE utf8mb4_general_ci NOT NULL,
   `refund_date` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -140,11 +140,11 @@ CREATE TABLE `refunds` (
 --
 
 CREATE TABLE `routes` (
-  `route_id` int(11) NOT NULL,
-  `source` varchar(100) NOT NULL,
-  `destination` varchar(100) NOT NULL,
+  `route_id` int NOT NULL,
+  `source` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `destination` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
   `distance` decimal(10,2) NOT NULL,
-  `status` enum('active','inactive') NOT NULL
+  `status` enum('active','inactive') COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -154,14 +154,14 @@ CREATE TABLE `routes` (
 --
 
 CREATE TABLE `schedules` (
-  `schedule_id` int(11) NOT NULL,
-  `bus_id` int(11) NOT NULL,
-  `route_id` int(11) NOT NULL,
+  `schedule_id` int NOT NULL,
+  `bus_id` int NOT NULL,
+  `route_id` int NOT NULL,
   `departure_date` date NOT NULL,
   `departure_time` time NOT NULL,
   `arrival_time` time NOT NULL,
   `ticket_price` decimal(10,2) NOT NULL,
-  `status` enum('scheduled','completed','cancelled') NOT NULL
+  `status` enum('scheduled','completed','cancelled') COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -171,10 +171,10 @@ CREATE TABLE `schedules` (
 --
 
 CREATE TABLE `seats` (
-  `seat_id` int(11) NOT NULL,
-  `bus_id` int(11) NOT NULL,
-  `seat_number` varchar(10) NOT NULL,
-  `seat_type` varchar(30) NOT NULL
+  `seat_id` int NOT NULL,
+  `bus_id` int NOT NULL,
+  `seat_number` varchar(10) COLLATE utf8mb4_general_ci NOT NULL,
+  `seat_type` varchar(30) COLLATE utf8mb4_general_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
@@ -184,14 +184,21 @@ CREATE TABLE `seats` (
 --
 
 CREATE TABLE `users` (
-  `user_id` int(11) NOT NULL,
-  `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
-  `phone` varchar(20) NOT NULL,
-  `password` varchar(255) NOT NULL,
-  `role` enum('super_admin','company_admin','customer') NOT NULL,
-  `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
+  `user_id` int NOT NULL,
+  `name` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `email` varchar(100) COLLATE utf8mb4_general_ci NOT NULL,
+  `phone` varchar(20) COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci NOT NULL,
+  `role` enum('super_admin','company_admin','customer') COLLATE utf8mb4_general_ci NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `users`
+--
+
+INSERT INTO `users` (`user_id`, `name`, `email`, `phone`, `password`, `role`, `created_at`) VALUES
+(1, 'jahin', 'jahin@gmail.com', '017000003487', '0f5c0cbcf0e77547a9d942a9c1ed68ec629569a6', 'super_admin', '2026-11-04 13:30:47');
 
 --
 -- Indexes for dumped tables
@@ -273,67 +280,67 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `booking_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `booking_seats`
 --
 ALTER TABLE `booking_seats`
-  MODIFY `booking_seats` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `booking_seats` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `buses`
 --
 ALTER TABLE `buses`
-  MODIFY `bus_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bus_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `bus_companies`
 --
 ALTER TABLE `bus_companies`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `company_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cancellations`
 --
 ALTER TABLE `cancellations`
-  MODIFY `cancellation_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cancellation_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `payment_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `refunds`
 --
 ALTER TABLE `refunds`
-  MODIFY `refund_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `refund_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `route_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `schedule_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `seats`
 --
 ALTER TABLE `seats`
-  MODIFY `seat_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `seat_id` int NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
