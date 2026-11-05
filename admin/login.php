@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config/db.php';
+include '../config/db.php';
 
 
 
@@ -37,7 +37,7 @@ if(isset($_POST['login'])){
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['role'] = $user['role'];
 
-                header("Location: admin/dashboard.php");
+                header("Location: ../admin/dashboard.php");
                 exit;
 
             }else {

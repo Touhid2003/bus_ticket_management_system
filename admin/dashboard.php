@@ -5,7 +5,7 @@ include '../config/db.php';
 
 
 if ($_SESSION['role'] !== "super_admin") {
-    header("Location: ../login.php");
+    header("Location: login.php");
     exit;
 }
 ?>
