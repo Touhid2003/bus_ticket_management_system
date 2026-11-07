@@ -1,8 +1,3 @@
-
-
-
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -28,24 +23,69 @@
             font-weight: bold;
             color: #0d6efd;
         }
+        
+/* BusGo Carousel */
 
-        .hero {
-            background: linear-gradient(120deg, #0d6efd, #003b95);
-            color: white;
-            padding: 100px 0;
-        }
+#busGoCarousel {
+    border-radius: 16px;
+    overflow: hidden;
+}
 
-        .hero h1 {
-            font-size: 45px;
-            font-weight: bold;
-        }
+#busGoCarousel .carousel-item img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+
+#busGoCarousel .carousel-caption {
+    bottom: 45px;
+    left: 7%;
+    right: 7%;
+    text-align: left;
+}
+
+#busGoCarousel .carousel-caption h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+}
+
+#busGoCarousel .carousel-caption p {
+    font-size: 15px;
+    color: #f1f5f9;
+}
+
+#busGoCarousel .carousel-indicators {
+    margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+    #busGoCarousel .carousel-item img {
+        height: 210px;
+    }
+
+    #busGoCarousel .carousel-caption {
+        bottom: 25px;
+    }
+
+    #busGoCarousel .carousel-caption h2 {
+        font-size: 20px;
+    }
+
+    #busGoCarousel .carousel-caption p {
+        font-size: 12px;
+    }
+}
+
+       
 
         .search-box {
             background: white;
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            margin-top: 35px;
+            
         }
 
         .search-box label {
@@ -91,7 +131,7 @@
 <body>
 
 <!-- Navbar -->
-<nav class="navbar navbar-expand-lg shadow-sm">
+<nav class="navbar navbar-expand-lg shadow-sm fixed-top mb-5 bg-white">
     <div class="container">
 
         <a class="navbar-brand" href="index.php">
@@ -135,70 +175,80 @@
 </nav>
 
 
-<!-- Hero Section -->
-<section class="hero">
-    <div class="container text-center">
-
-        <h1>Travel Easy, Book Smart</h1>
-
-        <p class="lead mt-3">
-            Book your bus tickets online anytime, anywhere.
-        </p>
-
-        <!-- Bus Search Form -->
-        <div class="search-box">
-
-            <form action="search_bus.php" method="GET">
-
-                <div class="row g-3 align-items-end">
-
-                    <div class="col-md-3 text-start">
-                        <label>From</label>
-                        <select name="source" class="form-select" required>
-                            <option value="">Select City</option>
-                            <option>Dhaka</option>
-                            <option>Chattogram</option>
-                            <option>Bogura</option>
-                            <option>Rajshahi</option>
-                            <option>Sylhet</option>
-                            <option>Khulna</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3 text-start">
-                        <label>To</label>
-                        <select name="destination" class="form-select" required>
-                            <option value="">Select City</option>
-                            <option>Dhaka</option>
-                            <option>Chattogram</option>
-                            <option>Bogura</option>
-                            <option>Rajshahi</option>
-                            <option>Sylhet</option>
-                            <option>Khulna</option>
-                        </select>
-                    </div>
-
-                    <div class="col-md-3 text-start">
-                        <label>Journey Date</label>
-                        <input type="date" name="journey_date"
-                               class="form-control" required
-                               min="<?php echo date('Y-m-d'); ?>">
-                    </div>
-
-                    <div class="col-md-3">
-                        <button type="submit" class="btn btn-primary w-100">
-                            Search Bus
-                        </button>
-                    </div>
-
+<!-- Hero Section with Floating Search Box -->
+<section class="hero mt-5 pt-4">  
+        <!-- Carousel Background Banner -->
+        <div id="busGoCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel">
+            <div class="carousel-inner rounded-4 shadow" style="height: 480px;">
+                <div class="carousel-item active h-100">
+                    <img src="assets/images/4.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Bus Banner" style="filter: brightness(60%);">
                 </div>
+                <div class="carousel-item h-100">
+                    <img src="assets/images/6.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Bus Travel" style="filter: brightness(60%);">
+                </div>
+                <div class="carousel-item h-100">
+                    <img src="assets/images/7.jpg" class="d-block w-100 h-100 object-fit-cover" alt="Bus Booking" style="filter: brightness(60%);">
+                </div>
+            </div>
 
-            </form>
-
+            <!-- Carousel Controls (Optional) -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#busGoCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#busGoCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
 
-    </div>
+        <!-- Search Box (Floating on top of carousel) -->
+        <div class="position-absolute  start-50 translate-middle w-90" style="max-width: 1050px; z-index: 10; top: 75%;">
+            <div class="search-box bg-white p-4 rounded-4 shadow-lg">
+                <form action="search_bus.php" method="GET">
+                    <div class="row g-3 align-items-end">
+                        
+                        <div class="col-md-3 text-start">
+                            <label class="form-label fw-bold">From</label>
+                            <select name="source" class="form-select" required>
+                                <option value="">Select City</option>
+                                <option value="Dhaka">Dhaka</option>
+                                <option value="Chattogram">Chattogram</option>
+                                <option value="Bogura">Bogura</option>
+                                <option value="Rajshahi">Rajshahi</option>
+                                <option value="Sylhet">Sylhet</option>
+                                <option value="Khulna">Khulna</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 text-start">
+                            <label class="form-label fw-bold">To</label>
+                            <select name="destination" class="form-select" required>
+                                <option value="">Select City</option>
+                                <option value="Dhaka">Dhaka</option>
+                                <option value="Chattogram">Chattogram</option>
+                                <option value="Bogura">Bogura</option>
+                                <option value="Rajshahi">Rajshahi</option>
+                                <option value="Sylhet">Sylhet</option>
+                                <option value="Khulna">Khulna</option>
+                            </select>
+                        </div>
+
+                        <div class="col-md-3 text-start">
+                            <label class="form-label fw-bold">Journey Date</label>
+                            <input type="date" name="journey_date" class="form-control" required min="<?php echo date('Y-m-d'); ?>">
+                        </div>
+
+                        <div class="col-md-3">
+                            <button type="submit" class="btn btn-primary w-100 fw-bold py-2">Search Bus</button>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
 </section>
+
 
 
 <!-- Popular Routes -->
@@ -322,6 +372,26 @@
 
     </div>
 </footer>
+<script>
+    
+document.addEventListener('DOMContentLoaded', function () {
+
+    const carouselElement = document.getElementById('busGoCarousel');
+
+    if (carouselElement) {
+        new bootstrap.Carousel(carouselElement, {
+            interval: 4000,
+            ride: 'carousel',
+            pause: false,
+            wrap: true,
+            touch: true
+        });
+    }
+
+});
+
+</script>
+
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 

@@ -1,7 +1,7 @@
 <aside class="sidebar" id="sidebar">
     <nav class="nav flex-column gap-1">
         <a class="nav-link active" href="dashboard.php"><i class="bi bi-speedometer2"></i>Dashboard</a>
-        <a class="nav-link" href="../includes/companies.php"><i class="bi bi-building"></i>Companies</a>
+        <a class="nav-link" href="companies.php"><i class="bi bi-building"></i>Companies</a>
         <a class="nav-link" href="users.html"><i class="bi bi-people"></i>Users</a>
         <a class="nav-link" href="admins.html"><i class="bi bi-shield-check"></i>Admins</a>
         <a class="nav-link" href="buses.html"><i class="bi bi-bus-front"></i>Buses</a>

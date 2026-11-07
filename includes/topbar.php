@@ -12,12 +12,6 @@
 
 </a>
   </div>
-
-  <form class="d-none d-md-flex search-box" role="search" onsubmit="return false">
-    <i class="bi bi-search"></i>
-    <input type="search" id="globalSearch" class="form-control" placeholder="Search bookings..." aria-label="Search">
-  </form>
-
   <div class="d-flex align-items-center gap-3">
     <div class="dropdown">
       <button class="btn btn-light position-relative" data-bs-toggle="dropdown" aria-label="Notifications">
@@ -50,7 +44,7 @@
           <hr class="dropdown-divider">
         </li>
         <li><a class="dropdown-item text-danger" 
-        href="logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+        href="index.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
       </ul>
     </div>
   </div>

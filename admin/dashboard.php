@@ -4,7 +4,7 @@ session_start();
 include '../config/db.php';
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
-    header('Location: login.php');
+    header('Location: index.php');
     exit;
 }
 ?>
@@ -37,82 +37,51 @@ include '../includes/sidebar.php';
 
 
 
+
         <!-- ========== MAIN ========== -->
         <main class="content">
-            <h1 class="h3 fw-bold mb-1">Dashboard</h1>
-            <p class="text-secondary mb-4">Companies, fleet, bookings ও revenue-এর সারসংক্ষেপ।</p>
+  <div class="header-card">
+    <h2>Welcome back, <?php echo ($_SESSION['name']);?>! 👋</h2>
+      <p>Here's your dashboard overview. </p>
+  </div>
 
-            <!-- Statistics Cards -->
-            <section class="row g-3 mb-4">
-                <div class="col-sm-6 col-xl">
-                    <div class="card stat-card h-100">
-                        <div class="card-body d-flex gap-3">
-                            <div class="icon-box bg-primary-subtle text-primary"><i class="bi bi-building"></i></div>
-                            <div>
-                                <div class="text-secondary small fw-medium">Total Companies</div>
-                                <div class="fs-3 fw-bold" id="statCompanies">24</div>
-                                <div class="text-success small fw-semibold">+2 this month</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl">
-                    <div class="card stat-card h-100">
-                        <div class="card-body d-flex gap-3">
-                            <div class="icon-box bg-purple-subtle"><i class="bi bi-bus-front"></i></div>
-                            <div>
-                                <div class="text-secondary small fw-medium">Total Buses</div>
-                                <div class="fs-3 fw-bold" id="statBuses">186</div>
-                                <div class="text-success small fw-semibold">+11 this month</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl">
-                    <div class="card stat-card h-100">
-                        <div class="card-body d-flex gap-3">
-                            <div class="icon-box bg-info-subtle text-info-emphasis"><i class="bi bi-people"></i></div>
-                            <div>
-                                <div class="text-secondary small fw-medium">Total Users</div>
-                                <div class="fs-3 fw-bold" id="statUsers">12,480</div>
-                                <div class="text-success small fw-semibold">+4.2% vs last month</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl">
-                    <div class="card stat-card h-100">
-                        <div class="card-body d-flex gap-3">
-                            <div class="icon-box bg-warning-subtle text-warning-emphasis"><i class="bi bi-ticket-perforated"></i></div>
-                            <div>
-                                <div class="text-secondary small fw-medium">Total Bookings</div>
-                                <div class="fs-3 fw-bold" id="statBookings">9,342</div>
-                                <div class="text-success small fw-semibold">+8.1% vs last month</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl">
-                    <div class="card stat-card h-100">
-                        <div class="card-body d-flex gap-3">
-                            <div class="icon-box bg-success-subtle text-success-emphasis"><i class="bi bi-cash-stack"></i></div>
-                            <div>
-                                <div class="text-secondary small fw-medium">Total Revenue</div>
-                                <div class="fs-3 fw-bold" id="statRevenue">৳ 58.7 L</div>
-                                <div class="text-success small fw-semibold">+12.4% vs last month</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
+    <!-- Statistics Cards -->
+    <section class="row g-3 mb-4">
+      <div class="col-sm-6 col-xl">
+        <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
+          <div class="icon-box bg-primary-subtle text-primary"><i class="bi bi-building"></i></div>
+          <div><div class="text-secondary small fw-medium">Total Companies</div><div class="fs-3 fw-bold" id="statCompanies">24</div><div class="text-success small fw-semibold">+2 this month</div></div>
+        </div></div>
+      </div>
+      <div class="col-sm-6 col-xl">
+        <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
+          <div class="icon-box bg-purple-subtle"><i class="bi bi-bus-front"></i></div>
+          <div><div class="text-secondary small fw-medium">Total Buses</div><div class="fs-3 fw-bold" id="statBuses">186</div><div class="text-success small fw-semibold">+11 this month</div></div>
+        </div></div>
+      </div>
+      <div class="col-sm-6 col-xl">
+        <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
+          <div class="icon-box bg-info-subtle text-info-emphasis"><i class="bi bi-people"></i></div>
+          <div><div class="text-secondary small fw-medium">Total Users</div><div class="fs-3 fw-bold" id="statUsers">12,480</div><div class="text-success small fw-semibold">+4.2% vs last month</div></div>
+        </div></div>
+      </div>
+      <div class="col-sm-6 col-xl">
+        <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
+          <div class="icon-box bg-warning-subtle text-warning-emphasis"><i class="bi bi-ticket-perforated"></i></div>
+          <div><div class="text-secondary small fw-medium">Total Bookings</div><div class="fs-3 fw-bold" id="statBookings">9,342</div><div class="text-success small fw-semibold">+8.1% vs last month</div></div>
+        </div></div>
+      </div>
+      <div class="col-sm-6 col-xl">
+        <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
+          <div class="icon-box bg-success-subtle text-success-emphasis"><i class="bi bi-cash-stack"></i></div>
+          <div><div class="text-secondary small fw-medium">Total Revenue</div><div class="fs-3 fw-bold" id="statRevenue">৳ 58.7 L</div><div class="text-success small fw-semibold">+12.4% vs last month</div></div>
+        </div></div>
+      </div>
+    </section>
 
-            <!-- Charts -->
-           
-
-            <!-- Recent Bookings -->
-            
-        </main>
-    </div>
+    <!-- Charts -->
+    
+  </main>
 
 <?php
 include '../includes/admin_script.php';

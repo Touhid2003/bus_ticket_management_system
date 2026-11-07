@@ -1,0 +1,49 @@
+ body {
+            background: #f4f6fb;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-title {
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .form-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 3px 10px rgba(0,0,0,.04);
+        }
+
+        .card-header-custom {
+            background: #0d6efd;
+            color: white;
+            padding: 16px 22px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .form-body {
+            padding: 25px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #334155;
+        }
+
+        .form-control,
+        .form-select {
+            padding: 11px 13px;
+            border-radius: 8px;
+        }
+
+        .required {
+            color: red;
+        }
+
+        .btn {
+            padding: 10px 22px;
+            border-radius: 8px;
+        }

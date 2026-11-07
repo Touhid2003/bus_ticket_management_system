@@ -3,8 +3,8 @@ session_start();
 
 include '../config/db.php';
 
-if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
-    header('Location: login.php');
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'company_admin') {
+    header('Location: index.php');
     exit;
 }
 ?>
@@ -32,26 +32,27 @@ include '../includes/topbar.php';
     <div class="layout">
 
    <?php
-include '../includes/sidebar.php';
+include '../includes/cmsidebar.php';
 ?>
 
 
 
         <!-- ========== MAIN ========== -->
-        <main class="content">
-            <h1 class="h3 fw-bold mb-1">Companies</h1>
-            <p class="text-secondary mb-4">Companies, fleet, bookings ও revenue-এর সারসংক্ষেপ।</p>
+         <main class="content">
+  <div class="header-card">
+    <h2>Welcome back, <?php echo ($_SESSION['name']);?>! 👋</h2>
+      <p>Here's your dashboard overview. </p>
+  </div>
+
+    <!-- Statistics Cards -->
+    
+    <!-- Charts -->
+    
+  </main>
+      
 
             <!-- Statistics Cards -->
            
-
-            <!-- Charts -->
-           
-
-            <!-- Recent Bookings -->
-            
-        </main>
-    </div>
 
 <?php
 include '../includes/admin_script.php';
