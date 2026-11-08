@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Nov 05, 2026 at 03:15 AM
+-- Generation Time: Nov 08, 2026 at 03:03 AM
 -- Server version: 8.4.3
 -- PHP Version: 8.3.33
 
@@ -198,7 +198,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`user_id`, `name`, `email`, `phone`, `password`, `role`, `created_at`) VALUES
-(1, 'jahin', 'jahin@gmail.com', '017000003487', '0f5c0cbcf0e77547a9d942a9c1ed68ec629569a6', 'super_admin', '2026-11-04 13:30:47');
+(1, 'jahin', 'jahin@gmail.com', '017000003487', '0f5c0cbcf0e77547a9d942a9c1ed68ec629569a6', 'super_admin', '2026-11-04 13:30:47'),
+(2, 'rafat', 'rafat@gmail.com', '', 'c4ee6474f8fd46c343795bf9fbcd1bb3f9a6b147', 'company_admin', '2026-11-08 02:53:26'),
+(3, 'touhid', 'touhid@gmail.com', '', 'cc4ed6830efc118d6b97e74bbc639637c411eafb', 'customer', '2026-11-08 02:56:25');
 
 --
 -- Indexes for dumped tables
@@ -340,7 +342,7 @@ ALTER TABLE `seats`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `user_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
