@@ -1,0 +1,244 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+body {
+    background: #f5f7fb;
+    font-family: 'Inter', sans-serif;
+    color: #202938;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-header h3 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.page-header p,
+.form-heading p {
+    color: #8993a4;
+    font-size: 13px;
+    margin: 0;
+}
+
+.btn-add {
+    background: #2563eb;
+    color: white;
+    border: none;
+    padding: 11px 18px;
+    border-radius: 7px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.btn-add:hover,
+.btn-save:hover {
+    background: #1d4ed8;
+}
+
+.company-card {
+    background: white;
+    border-radius: 12px;
+    padding: 22px;
+    box-shadow: 0 3px 15px rgba(0,0,0,0.04);
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.table-header h5 {
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.search-box {
+    max-width: 250px;
+    font-size: 13px;
+    padding: 10px 13px;
+}
+
+.company-table {
+    vertical-align: middle;
+    font-size: 13px;
+    width: 100%;
+}
+
+.company-table thead th {
+    background: #f8fafc;
+    color: #64748b;
+    font-weight: 600;
+    padding: 9px 12px;
+    white-space: nowrap;
+    border-bottom: 1px solid #e8edf3;
+}
+
+.company-table tbody td {
+    padding: 9px 12px;
+    color: #596579;
+    border-bottom: 1px solid #edf0f4;
+}
+
+.company-name {
+    color: #202938;
+    font-weight: 600;
+    padding: 12px;
+}
+
+.status {
+    padding: 6px 11px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.status.active {
+    background: #dcfce7;
+    color: #15803d;
+}
+
+.status.inactive {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.action-btn {
+    border: none;
+    padding: 6px 10px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-right: 3px;
+}
+
+.edit {
+    background: #dbeafe;
+    color: #2563eb;
+}
+
+.delete {
+    background: #fee2e2;
+    color: #dc2626;
+    text-decoration: none;
+}
+
+/* Popup Overlay */
+
+.form-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.55);
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 15px;
+    overflow-y: auto;
+    z-index: 9999;
+}
+
+.form-popup {
+    background: white;
+    width: 100%;
+    max-width: 520px;
+    margin: auto;
+    padding: 27px;
+    border-radius: 13px;
+    box-shadow: 0 15px 50px rgba(0,0,0,0.2);
+}
+
+.form-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 25px;
+}
+
+.form-heading h4 {
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.close-btn {
+    background: #f1f5f9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    font-size: 23px;
+    line-height: 1;
+}
+
+.form-popup label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-popup .form-control,
+.form-popup .form-select {
+    font-size: 13px;
+    padding: 11px 12px;
+    border-color: #e2e8f0;
+}
+
+.form-popup .form-control:focus,
+.form-popup .form-select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.form-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.btn-cancel,
+.btn-save {
+    padding: 10px 17px;
+    border-radius: 6px;
+    border: none;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.btn-cancel {
+    background: #f1f5f9;
+    color: #475569;
+}
+
+.btn-save {
+    background: #2563eb;
+    color: white;
+}
+a {
+            text-decoration: none;
+        }
+
+@media (max-width: 600px) {
+    .page-header,
+    .table-header {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .search-box {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .form-popup {
+        padding: 20px;
+    }
+}

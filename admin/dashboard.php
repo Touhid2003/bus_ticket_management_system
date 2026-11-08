@@ -4,7 +4,7 @@ session_start();
 include '../config/db.php';
 
 if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
-    header('Location: index.php');
+    header('Location: ../login.php');
     exit;
 }
 ?>
@@ -50,7 +50,15 @@ include '../includes/sidebar.php';
       <div class="col-sm-6 col-xl">
         <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
           <div class="icon-box bg-primary-subtle text-primary"><i class="bi bi-building"></i></div>
-          <div><div class="text-secondary small fw-medium">Total Companies</div><div class="fs-3 fw-bold" id="statCompanies">24</div><div class="text-success small fw-semibold">+2 this month</div></div>
+          <div><div class="text-secondary small fw-medium">Total Companies</div><div class="fs-3 fw-bold" id="statCompanies">
+            <?php 
+           
+          $totalCompanies = $conn->query("SELECT COUNT(*) AS total FROM bus_companies");
+          $total = $totalCompanies->fetch_assoc();
+
+          echo $total['total'];
+
+          ?></div><div class="text-success small fw-semibold">+2 this month</div></div>
         </div></div>
       </div>
       <div class="col-sm-6 col-xl">

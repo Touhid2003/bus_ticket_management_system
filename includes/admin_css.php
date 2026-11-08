@@ -3,3 +3,6 @@
 
 <link href="../assets/css/admin.css" rel="stylesheet">
 <link href="../assets/css/companiesAdd.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../assets/css/companies.css">
