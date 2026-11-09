@@ -137,9 +137,10 @@ include '../includes/admincmsidebar.php';
     </td>
 
     <td>
-        <a class="action-btn edit" href="companies_edit.php?company_id<?php echo $row['company_id']; ?>" title="edit" type="button">
-            Edit
-        </a>
+       <a class="action-btn edit"
+   href="companies_edit.php?company_id=<?php echo $row['company_id']; ?>">
+    Edit
+</a>
        
         <a
     class="action-btn delete"

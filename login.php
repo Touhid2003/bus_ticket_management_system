@@ -74,8 +74,8 @@ require_once 'config/db.php';
                 </div>
                 <span>or use your email for registeration</span>
                 <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email">
-                <input type="password" placeholder="Password">
+                <input type="email" placeholder="Email" value="">
+                <input type="password" placeholder="Password" value="jahin">
                 <input type="text" placeholder="Phone Number">
                 <button>Sign Up</button>
             </form>
@@ -96,8 +96,8 @@ require_once 'config/db.php';
                 }
 
                 ?>
-                <input type="email" name="email" placeholder="Email">
-                <input type="password" name="password" placeholder="Password">
+                <input type="email" name="email" placeholder="Email" value="jahin@gmail.com">
+                <input type="password" name="password" placeholder="Password" value="jahin">
                 <a href="#">Forget Your Password?</a>
                 <button type="submit" name="login">Sign In</button>
             </form>
