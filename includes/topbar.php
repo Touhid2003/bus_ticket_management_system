@@ -1,9 +1,13 @@
 <nav class="navbar topbar bg-white border-bottom sticky-top px-3">
   <div class="d-flex align-items-center gap-2">
+   <button class="btn btn-light sidebar-toggle" id="sidebarToggle" type="button"
+     aria-label="Toggle sidebar" aria-controls="sidebar" aria-expanded="true">
+    <i class="bi bi-list"></i>
+   </button>
    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold m-0 text-decoration-none"
    href="dashboard.php">
 
-    <img src="../assets/images/logo" alt="BusGo Logo" width="30" height="30" class="d-inline-block align-text-top">
+    <img src="../assets/images/logo.png" alt="BusGo Logo" width="30" height="30" class="d-inline-block align-text-top">
 
     <span class="logo-text">
        

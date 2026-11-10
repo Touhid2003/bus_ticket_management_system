@@ -1,13 +1,52 @@
-// ---------- Sidebar toggle (mobile) ----------
-document.getElementById('sidebarToggle')?.addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open');
-});
-document.addEventListener('click', (e) => {
-  const sb = document.getElementById('sidebar');
-  if (sb.classList.contains('open') && !sb.contains(e.target) && !e.target.closest('#sidebarToggle')) {
-    sb.classList.remove('open');
-  }
-});
+// ---------- Sidebar toggle ----------
+const sidebarToggle = document.getElementById('sidebarToggle');
+const sidebar = document.getElementById('sidebar');
+
+if (sidebarToggle && sidebar) {
+  const mobileViewport = window.matchMedia('(max-width: 991.98px)');
+  const updateToggleState = () => {
+    const expanded = mobileViewport.matches
+      ? document.body.classList.contains('sidebar-open')
+      : !document.body.classList.contains('sidebar-collapsed');
+    sidebarToggle.setAttribute('aria-expanded', String(expanded));
+  };
+
+  sidebarToggle.addEventListener('click', () => {
+    if (mobileViewport.matches) {
+      document.body.classList.toggle('sidebar-open');
+    } else {
+      document.body.classList.toggle('sidebar-collapsed');
+    }
+    updateToggleState();
+  });
+
+  document.addEventListener('click', (event) => {
+    if (
+      mobileViewport.matches &&
+      document.body.classList.contains('sidebar-open') &&
+      event.target instanceof Element &&
+      !sidebar.contains(event.target) &&
+      !sidebarToggle.contains(event.target)
+    ) {
+      document.body.classList.remove('sidebar-open');
+      updateToggleState();
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && document.body.classList.contains('sidebar-open')) {
+      document.body.classList.remove('sidebar-open');
+      updateToggleState();
+    }
+  });
+
+  mobileViewport.addEventListener('change', () => {
+    document.body.classList.remove('sidebar-open');
+    updateToggleState();
+  });
+
+  updateToggleState();
+}
 
 // ---------- Chart data (PHP পর্বে এগুলো ডাটাবেস থেকে আসবে) ----------
 const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];

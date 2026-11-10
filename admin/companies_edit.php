@@ -68,14 +68,11 @@ if (!$row) {
 
     <div class="container-fluid py-4 px-4">
 
-        <div class="page-header">
+        <div class="company-card edit-form-card p-4">
             <div>
                 <h3>Edit Company</h3>
                 <p>Update company information.</p>
             </div>
-        </div>
-
-        <div class="company-card p-4">
 
             <form method="POST">
 
@@ -83,7 +80,7 @@ if (!$row) {
                     <label>Company Name</label>
                     <input type="text" name="name"
                         class="form-control"
-                        value="<?php echo htmlspecialchars($row->company_name); ?>"
+                        value="<?php echo $row->company_name; ?>"
                         required>
                 </div>
 
@@ -91,7 +88,7 @@ if (!$row) {
                     <label>Email Address</label>
                     <input type="email" name="email"
                         class="form-control"
-                        value="<?php echo htmlspecialchars($row->email); ?>"
+                        value="<?php echo $row->email; ?>"
                         required>
                 </div>
 
@@ -99,7 +96,7 @@ if (!$row) {
                     <label>Phone Number</label>
                     <input type="text" name="phone"
                         class="form-control"
-                        value="<?php echo htmlspecialchars($row->phone); ?>"
+                        value="<?php echo $row->phone; ?>"
                         required>
                 </div>
 
@@ -107,7 +104,7 @@ if (!$row) {
                     <label>Company Address</label>
                     <textarea name="address"
                         class="form-control"
-                        rows="3"><?php echo htmlspecialchars($row->address); ?></textarea>
+                        rows="3"><?php echo $row->address; ?></textarea>
                 </div>
 
                 <div class="mb-3">

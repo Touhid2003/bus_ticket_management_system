@@ -70,7 +70,16 @@ include '../includes/sidebar.php';
       <div class="col-sm-6 col-xl">
         <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
           <div class="icon-box bg-info-subtle text-info-emphasis"><i class="bi bi-people"></i></div>
-          <div><div class="text-secondary small fw-medium">Total Users</div><div class="fs-3 fw-bold" id="statUsers">12,480</div><div class="text-success small fw-semibold">+4.2% vs last month</div></div>
+          <div><div class="text-secondary small fw-medium">Total Users</div><div class="fs-3 fw-bold" id="statUsers">
+            <?php 
+            $totalUsers = $conn->query("SELECT COUNT(*) AS total FROM users WHERE role = 'customer' " );
+
+            $total = $totalUsers->fetch_assoc();
+            echo $total['total'];
+            
+            ?>
+
+          </div><div class="text-success small fw-semibold">+4.2% vs last month</div></div>
         </div></div>
       </div>
       <div class="col-sm-6 col-xl">
