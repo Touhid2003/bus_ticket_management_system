@@ -11,8 +11,8 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
     $role = "customer";
 
-    $sql = "INSERT INTO users(user_id, name, email, phone, password, role, created_at)
-    values(NULL, '$name', '$email', '$phone', '$password', '$role', NULL)";
+    $sql = "INSERT INTO users(user_id, name, email, phone, password, role)
+    values(NULL, '$name', '$email', '$phone', '$password', '$role')";
 
     $conn->query($sql);
 
