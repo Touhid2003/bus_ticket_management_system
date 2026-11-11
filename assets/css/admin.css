@@ -30,6 +30,8 @@ body {
 .topbar {
   height: 64px;
   gap: 16px;
+  background-color: #0d6efd !important;
+ 
 }
 
 .logo-box {

@@ -1,4 +1,4 @@
-<nav class="navbar topbar bg-white border-bottom sticky-top px-3">
+<nav class="navbar topbar  border-bottom sticky-top px-3 ">
   <div class="d-flex align-items-center gap-2">
    <a class="navbar-brand d-flex align-items-center gap-2 fw-bold m-0 text-decoration-none"
    href="dashboard.php">
