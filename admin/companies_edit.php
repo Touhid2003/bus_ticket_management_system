@@ -68,14 +68,11 @@ if (!$row) {
 
     <div class="container-fluid py-4 px-4">
 
-        <div class="page-header">
+        <div class="company-card edit-form-card p-4">
             <div>
                 <h3>Edit Company</h3>
                 <p>Update company information.</p>
             </div>
-        </div>
-
-        <div class="company-card p-4">
 
             <form method="POST">
 
@@ -83,8 +80,12 @@ if (!$row) {
                     <label>Company Name</label>
                     <input type="text" name="name"
                         class="form-control"
+<<<<<<< HEAD
                         value="<?php
                          echo $row->company_name; ?>"
+=======
+                        value="<?php echo $row->company_name; ?>"
+>>>>>>> 5da370d56de4d399ca9db4d3d22009ae3879bc79
                         required>
                 </div>
 

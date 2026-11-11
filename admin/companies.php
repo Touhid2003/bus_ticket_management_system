@@ -27,7 +27,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 
-// Company List
 $rawData = $conn->query("SELECT * FROM bus_companies");
 
 

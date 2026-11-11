@@ -60,11 +60,14 @@ require_once 'config/db.php';
             $error = "Email Not Found!";
         }
     }
+
+    
     ?>
+
 
     <div class="container" id="container">
         <div class="form-container sign-up">
-            <form>
+            <form method="post" action="function/singUp.php">
                 <h1>Create Account</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -73,15 +76,15 @@ require_once 'config/db.php';
                     <a href="#" class="icon"><i class="fa-brands fa-linkedin-in"></i></a>
                 </div>
                 <span>or use your email for registeration</span>
-                <input type="text" placeholder="Name">
-                <input type="email" placeholder="Email" value="">
-                <input type="password" placeholder="Password" value="jahin">
-                <input type="text" placeholder="Phone Number">
-                <button>Sign Up</button>
+                <input type="text" name="name" placeholder="Name">
+                <input type="email" name="email" placeholder="Email" value="">
+                <input type="password" name="password" placeholder="Password" value="">
+                <input type="text" name="phone" placeholder="Phone Number">
+                <button name="signUp">Sign Up</button>
             </form>
         </div>
         <div class="form-container sign-in">
-            <form method="post">
+            <form method="post" action="">
                 <h1>Sign In</h1>
                 <div class="social-icons">
                     <a href="#" class="icon"><i class="fa-brands fa-google-plus-g"></i></a>
@@ -119,6 +122,14 @@ require_once 'config/db.php';
     </div>
 
     <script src="assets/js/login.js"></script>
+
+    <script>
+    const params = new URLSearchParams(window.location.search);
+
+    if (params.get('success') === 'registered') {
+        alert('Registration Successful! Please Login to continue.');
+    }
+</script>
 </body>
 
 </html>
