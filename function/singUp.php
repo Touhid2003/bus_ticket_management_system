@@ -11,6 +11,16 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
 
     $role = "customer";
 
+    $cheakEmail = "SELECT * FROM users WHERE email = '$email'";
+
+    $result = $conn->query($cheakEmail);
+
+    if($result->num_rows> 0){
+        header("location: ../login.php?error=email_exists");
+        exit;
+    }
+    else{
+
     $sql = "INSERT INTO users(user_id, name, email, phone, password, role)
     values(NULL, '$name', '$email', '$phone', '$password', '$role')";
 
@@ -22,7 +32,7 @@ if($_SERVER['REQUEST_METHOD'] === "POST"){
     }
    
 
-
+}
 
 }
 

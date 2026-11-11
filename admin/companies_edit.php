@@ -80,13 +80,9 @@ if (!$row) {
                     <label>Company Name</label>
                     <input type="text" name="name"
                         class="form-control"
-<<<<<<< HEAD
                         value="<?php
                          echo $row->company_name; ?>"
-=======
-                        value="<?php echo $row->company_name; ?>"
->>>>>>> 5da370d56de4d399ca9db4d3d22009ae3879bc79
-                        required>
+                        value="<?php echo $row->company_name; ?>" required>
                 </div>
 
                 <div class="mb-3">

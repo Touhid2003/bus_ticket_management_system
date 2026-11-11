@@ -126,6 +126,10 @@ require_once 'config/db.php';
     <script>
     const params = new URLSearchParams(window.location.search);
 
+    if(params.get('error') === 'email_exists'){
+        alert('All ready Registration');
+    }
+
     if (params.get('success') === 'registered') {
         alert('Registration Successful! Please Login to continue.');
     }
