@@ -85,8 +85,12 @@
             padding: 25px;
             border-radius: 12px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+             position: sticky;
             
         }
+        .carousel {
+    position: relative;
+}
 
         .search-box label {
             color: #333;
