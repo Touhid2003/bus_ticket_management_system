@@ -64,7 +64,16 @@ include '../includes/sidebar.php';
       <div class="col-sm-6 col-xl">
         <div class="card stat-card h-100"><div class="card-body d-flex gap-3">
           <div class="icon-box bg-purple-subtle"><i class="bi bi-bus-front"></i></div>
-          <div><div class="text-secondary small fw-medium">Total Buses</div><div class="fs-3 fw-bold" id="statBuses">186</div><div class="text-success small fw-semibold">+11 this month</div></div>
+          <div><div class="text-secondary small fw-medium">Total Buses</div><div class="fs-3 fw-bold" id="statBuses">
+               <?php 
+           
+          $totalCompanies = $conn->query("SELECT COUNT(*) AS total FROM buses");
+          $total = $totalCompanies->fetch_assoc();
+
+          echo $total['total'];
+
+          ?>
+          </div><div class="text-success small fw-semibold">+11 this month</div></div>
         </div></div>
       </div>
       <div class="col-sm-6 col-xl">

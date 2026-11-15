@@ -6,5 +6,6 @@
 
 
 <link rel="stylesheet" href="../assets/css/companies.css">
+<link rel="stylesheet" href="../assets/css/adminbar.css">
 
 

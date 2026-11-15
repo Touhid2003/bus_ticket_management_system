@@ -37,6 +37,7 @@ require_once 'config/db.php';
                     $_SESSION['name'] = $user['name'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['role'] = $user['role'];
+                   
 
 
 

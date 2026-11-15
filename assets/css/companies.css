@@ -11,6 +11,7 @@ body {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 25px;
+    width: 90%;
 }
 
 .page-header h3 {

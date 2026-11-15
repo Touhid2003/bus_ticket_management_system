@@ -1,6 +1,6 @@
 :root {
   --topbar-h: 64px;
-  --sidebar-w: 260px;
+  --sidebar-w: 250px;
   --sidebar-w-collapsed: 72px;
   --brand: #2563eb;
   --ink: #1b2437;
@@ -35,16 +35,12 @@ body {
   z-index: 1050;
   height: 64px;
   gap: 16px;
-<<<<<<< HEAD
-  background-color: #0d6efd !important;
- 
-=======
   flex-wrap: nowrap;
   box-shadow: 0 1px 5px rgba(27, 36, 55, .08);
 }
 
 .sidebar-toggle {
-  width: 40px;
+  width: 35px;
   height: 40px;
   display: inline-flex;
   align-items: center;
@@ -62,7 +58,6 @@ body {
 
 .logo-text {
   white-space: nowrap;
->>>>>>> 5da370d56de4d399ca9db4d3d22009ae3879bc79
 }
 
 .logo-box {
