@@ -55,7 +55,7 @@ include '../includes/adminbar.php';
         </div>
 
         <button class="btn-add" id="openForm">
-            <i class="bi bi-plus-lg"></i> Add Company
+            <i class="bi bi-plus-lg"></i> Add Admin
         </button>
     </div>
 

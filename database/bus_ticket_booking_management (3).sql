@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2026 at 07:51 PM
+-- Generation Time: Nov 15, 2026 at 09:10 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -61,11 +61,21 @@ CREATE TABLE `buses` (
   `bus_id` int(11) NOT NULL,
   `company_id` int(11) NOT NULL,
   `bus_name` varchar(100) NOT NULL,
-  `bus_type` varchar(50) NOT NULL,
+  `bus_type` enum('AC','Non-AC','Sleeper','Business Class') NOT NULL,
   `total_seats` int(11) NOT NULL,
   `status` enum('active','inactive') NOT NULL,
   `bus_number` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `buses`
+--
+
+INSERT INTO `buses` (`bus_id`, `company_id`, `bus_name`, `bus_type`, `total_seats`, `status`, `bus_number`) VALUES
+(1, 1, 'Hanif', 'Non-AC', 52, 'active', '101'),
+(2, 1, 'Hanif', 'Non-AC', 45, 'inactive', '102'),
+(3, 1, 'Hanif', 'Sleeper', 45, 'active', '103'),
+(4, 1, 'Hanif', 'Sleeper', 45, 'active', '104');
 
 -- --------------------------------------------------------
 
@@ -88,7 +98,7 @@ CREATE TABLE `bus_companies` (
 --
 
 INSERT INTO `bus_companies` (`company_id`, `company_name`, `email`, `phone`, `address`, `status`, `created_at`) VALUES
-(1, 'Hanif', 'hanif@gmail.com', '019678737873', 'Dhaka,Bangladesh', 'active', '2026-11-08 14:55:47'),
+(1, 'Hanif', 'rafat@gmail.com', '019678737873', 'Dhaka,Bangladesh', 'active', '2026-11-12 19:15:52'),
 (3, 'Shohagh Paribahan', 'shohagh@gmail.com', '01812345678', 'Chattogram, Bangladesh', 'active', '2026-11-08 17:52:00');
 
 -- --------------------------------------------------------
@@ -155,6 +165,16 @@ CREATE TABLE `routes` (
   `status` enum('active','inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `routes`
+--
+
+INSERT INTO `routes` (`route_id`, `source`, `destination`, `distance`, `status`) VALUES
+(1, 'Dhaka', 'Bogura', 195.00, 'active'),
+(2, 'Bogura', 'Dhaka', 195.00, 'active'),
+(3, 'Dhaka', 'Chattogram', 250.00, 'active'),
+(5, 'Dhaka', 'Rangpur', 305.00, 'active');
+
 -- --------------------------------------------------------
 
 --
@@ -171,6 +191,15 @@ CREATE TABLE `schedules` (
   `ticket_price` decimal(10,2) NOT NULL,
   `status` enum('scheduled','completed','cancelled') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `schedules`
+--
+
+INSERT INTO `schedules` (`schedule_id`, `bus_id`, `route_id`, `departure_date`, `departure_time`, `arrival_time`, `ticket_price`, `status`) VALUES
+(1, 1, 1, '2026-11-16', '08:30:00', '15:00:00', 700.00, 'scheduled'),
+(2, 3, 3, '2026-11-17', '08:00:00', '15:59:00', 500.00, 'scheduled'),
+(11, 3, 1, '2026-11-19', '02:01:00', '20:01:00', 600.00, 'scheduled');
 
 -- --------------------------------------------------------
 
@@ -198,6 +227,7 @@ CREATE TABLE `users` (
   `phone` varchar(20) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` enum('super_admin','company_admin','customer') NOT NULL,
+  `company_id` int(11) DEFAULT NULL,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -205,10 +235,18 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`user_id`, `name`, `email`, `phone`, `password`, `role`, `created_at`) VALUES
-(1, 'jahin', 'jahin@gmail.com', '017000003487', '0f5c0cbcf0e77547a9d942a9c1ed68ec629569a6', 'super_admin', '2026-11-04 19:30:47'),
-(2, 'rafat', 'rafat@gmail.com', '', 'c4ee6474f8fd46c343795bf9fbcd1bb3f9a6b147', 'company_admin', '2026-11-05 18:34:48'),
-(4, 'touhid', 'touhid@gmail.com', '', 'cc4ed6830efc118d6b97e74bbc639637c411eafb', 'customer', '2026-11-06 10:43:26');
+INSERT INTO `users` (`user_id`, `name`, `email`, `phone`, `password`, `role`, `company_id`, `created_at`) VALUES
+(1, 'jahin', 'jahin@gmail.com', '017000003487', '0f5c0cbcf0e77547a9d942a9c1ed68ec629569a6', 'super_admin', NULL, '2026-11-04 19:30:47'),
+(2, 'rafat', 'rafat@gmail.com', '', 'c4ee6474f8fd46c343795bf9fbcd1bb3f9a6b147', 'company_admin', 1, '2026-11-12 19:26:49'),
+(4, 'touhid', 'touhid@gmail.com', '', 'cc4ed6830efc118d6b97e74bbc639637c411eafb', 'customer', NULL, '2026-11-06 10:43:26'),
+(12, 'moheuzzaman', 'mohe@gmail.com', '', '8cc8fc2d79549dc285b96f7e5a85c11735458faa', 'customer', NULL, '2026-11-10 12:32:32'),
+(13, 'korim', 'korim@gmail.com', '0193483', '478153ed370153e39ff185065c02d1fc5cfc536b', 'customer', NULL, '2026-11-10 12:41:39'),
+(16, 'touhid1', 'touhid1@gmail.com', '02839888', 'cc4ed6830efc118d6b97e74bbc639637c411eafb', 'customer', NULL, '2026-11-10 12:47:11'),
+(17, 'safwan', 'safwan@gmail.com', '320483294892', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '', 0, '2026-11-14 12:08:01'),
+(21, 'shoyaib', 'shoyaib@gmail.com', '647890', '71f74ac897254bdedc2bd6a8f72074bebc133691', 'company_admin', 1, '2026-11-14 12:18:25'),
+(24, 'shoyaib', 'sho@gmail.com', '647890', '71f74ac897254bdedc2bd6a8f72074bebc133691', 'company_admin', 1, '2026-11-14 12:21:17'),
+(25, 'shohage', 'shohag@gmail.com', '4673892', '7977d8c57350d3d9b5e946e81355ad0c27278c60', 'company_admin', 3, '2026-11-14 12:22:15'),
+(26, '', '', '', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '', 0, '2026-11-15 11:16:48');
 
 --
 -- Indexes for dumped tables
@@ -280,7 +318,10 @@ ALTER TABLE `seats`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`user_id`),
-  ADD UNIQUE KEY `email` (`email`);
+  ADD UNIQUE KEY `email` (`email`),
+  ADD KEY `company_id` (`company_id`),
+  ADD KEY `company_id_2` (`company_id`),
+  ADD KEY `company_id_3` (`company_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -302,13 +343,13 @@ ALTER TABLE `booking_seats`
 -- AUTO_INCREMENT for table `buses`
 --
 ALTER TABLE `buses`
-  MODIFY `bus_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `bus_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `bus_companies`
 --
 ALTER TABLE `bus_companies`
-  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `company_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `cancellations`
@@ -332,13 +373,13 @@ ALTER TABLE `refunds`
 -- AUTO_INCREMENT for table `routes`
 --
 ALTER TABLE `routes`
-  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `route_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `seats`
@@ -350,7 +391,7 @@ ALTER TABLE `seats`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

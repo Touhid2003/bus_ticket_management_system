@@ -67,12 +67,10 @@ $sql = "SELECT
             <!-- Page Header -->
             <div class="page-header">
                 <div>
-                    <h3>Routes Management</h3>
-                    <p>Manage all Routes from here.</p>
+                    <h3>Schedules Management</h3>
+                    <p>Manage all schedules from here.</p>
                 </div>
-                <button class="btn-add" id="openForm">
-                    <i class="bi bi-plus-lg"></i> Add Routes
-                </button>
+                
             </div>
 
             <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
@@ -81,7 +79,7 @@ $sql = "SELECT
             <div class="company-card">
 
                 <div class="table-header">
-                    <h5>All Routes</h5>
+                    <h5>All Schedules</h5>
 
                     <input type="text" id="searchInput"
                         class="form-control search-box"

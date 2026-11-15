@@ -34,7 +34,7 @@ include '../includes/topbar.php';
     <!-- Page Header -->
     <div class="page-header">
         <div>
-            <h3>Users Management</h3>
+            <h3>Customers Management</h3>
             <p>View and manage all users from here.</p>
         </div>
     </div>
@@ -45,7 +45,7 @@ include '../includes/topbar.php';
     <div class="company-card">
 
         <div class="table-header">
-            <h3>All Users</h3>
+            <h3>All Customers</h3>
 
             <input type="text" id="searchInput"
                    class="form-control search-box"
