@@ -12,20 +12,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'company_admin') {
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    if (
-        !isset(
-            $_POST['bus_id'],
-            $_POST['route_id'],
-            $_POST['departure_date'],
-            $_POST['departure_time'],
-            $_POST['arrival_time'],
-            $_POST['ticket_price'],
-            $_POST['status']
-        )
-    ) {
-        http_response_code(400);
-        exit('Please provide all schedule details.');
-    }
+   
 
     $bus_id =  $_POST['bus_id'];
     $route_id =  $_POST['route_id'];
