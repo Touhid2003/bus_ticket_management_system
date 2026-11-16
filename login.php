@@ -101,9 +101,18 @@ require_once 'config/db.php';
 
                 ?>
                 <input type="email" name="email" placeholder="Email" value="jahin@gmail.com">
-                <input type="password" name="password" placeholder="Password" value="jahin">
+                <div class="password-field">
+                    <input id="login-password" type="password" name="password" placeholder="Password" value="jahin">
+                    <button class="password-toggle" type="button" aria-label="Show password" aria-pressed="false">
+                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                    </button>
+                </div>
                 <a href="#">Forget Your Password?</a>
                 <button type="submit" name="login">Sign In</button>
+                <a class="home-button" href="index.php">
+                    <i class="fa-solid fa-house" aria-hidden="true"></i>
+                    Go Back Home
+                </a>
             </form>
         </div>
         <div class="toggle-container">
