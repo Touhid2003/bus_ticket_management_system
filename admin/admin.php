@@ -209,7 +209,7 @@ include '../includes/adminbar.php';
                     while ($company = $companies->fetch_assoc()) {
                     ?>
                         <option value="<?php echo $company['company_id']; ?>">
-                            <?php echo htmlspecialchars($company['company_name']); ?>
+                            <?php echo ($company['company_name']); ?>
                         </option>
                     <?php } ?>
 
