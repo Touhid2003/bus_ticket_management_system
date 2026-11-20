@@ -59,6 +59,16 @@ include '../includes/adminbar.php';
         </button>
     </div>
 
+    <?php
+if (isset($_GET['success'])) {
+    echo '<div class="alert alert-success">Admin operation successful.</div>';
+}
+
+if (isset($_GET['error'])) {
+    echo '<div class="alert alert-danger">Admin operation failed.</div>';
+}
+?>
+
     <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
     <!-- Search and Table -->
@@ -101,7 +111,7 @@ include '../includes/adminbar.php';
 
     <td>
         <div class="company-name">
-        <?php echo $row['name']; ?>
+        <?php echo$row['name'] ; ?>
         </div>
     </td>
 
@@ -114,27 +124,27 @@ include '../includes/adminbar.php';
     </td>
 
     <td>
-         <?php echo $row['company_name']?? 'N/A'; ?>
+         <?php echo $row['company_name'] ?? 'N/A'; ?>
     </td>
     <td>
-         <?php echo $row['created_at']; ?>
+         <?php echo $row['created_at'] ; ?>
    
 </td>
     
 <td>
-    <?php echo $row['company_status']?? 'N/A'; ?>
+    <?php echo $row['company_status'] ; ?>
     </td>
    
 
     <td>
-       <a class="action-btn edit">
-    Edit
-</a>
-       
-        <a
-    class="action-btn delete">
-    Delete
-       </a>
+     <?php if ($row['role'] === 'company_admin') { ?>
+        <a href="admin_edit.php?user_id=<?php echo $row['user_id']; ?>" class="action-btn edit">Edit</a>
+        <a href="admin_delete.php?user_id=<?php echo $row['user_id']; ?>"
+           class="action-btn delete"
+           onclick="return confirm('Are you sure you want to delete this admin?')">Delete</a>
+     <?php } else { ?>
+        <span>Super Admin</span>
+     <?php } ?>
 
     </td>
 </tr>

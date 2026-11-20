@@ -1,3 +1,78 @@
+<?php
+session_start();
+include 'config/db.php';
+
+$routeOptions = $conn->query(
+    "SELECT source, destination
+     FROM routes
+     WHERE status = 'active'
+     ORDER BY source, destination"
+);
+$cities = [];
+while ($route = $routeOptions->fetch_assoc()) {
+    $cities[] = $route['source'];
+    $cities[] = $route['destination'];
+}
+$cities = array_unique($cities);
+sort($cities, SORT_NATURAL | SORT_FLAG_CASE);
+
+$source = isset($_GET['source']) && is_string($_GET['source']) ? trim($_GET['source']) : '';
+$destination = isset($_GET['destination']) && is_string($_GET['destination']) ? trim($_GET['destination']) : '';
+$journeyDate = isset($_GET['journey_date']) && is_string($_GET['journey_date']) ? trim($_GET['journey_date']) : '';
+$searchSubmitted = isset($_GET['source']) || isset($_GET['destination']) || isset($_GET['journey_date']);
+$searchError = '';
+$searchBuses = [];
+
+if ($searchSubmitted) {
+    $date = DateTime::createFromFormat('!Y-m-d', $journeyDate);
+    $validDate = $date && $date->format('Y-m-d') === $journeyDate;
+
+    if ($source === '' || $destination === '' || $journeyDate === '') {
+        $searchError = 'Please select a source, destination, and journey date.';
+    } elseif ($source === $destination) {
+        $searchError = 'Source and destination cannot be the same.';
+    } elseif (!$validDate || $journeyDate < date('Y-m-d')) {
+        $searchError = 'Please select a valid journey date.';
+    } else {
+        $searchStatement = $conn->prepare(
+            "SELECT schedules.schedule_id, schedules.departure_time,
+                    schedules.arrival_time, schedules.ticket_price,
+                    buses.bus_name, buses.bus_number, buses.bus_type,
+                    buses.total_seats, routes.source, routes.destination
+             FROM schedules
+             INNER JOIN routes ON schedules.route_id = routes.route_id
+             INNER JOIN buses ON schedules.bus_id = buses.bus_id
+             WHERE routes.source = ?
+               AND routes.destination = ?
+               AND schedules.departure_date = ?
+               AND schedules.status = 'scheduled'
+               AND routes.status = 'active'
+               AND buses.status = 'active'
+             ORDER BY schedules.departure_time ASC"
+        );
+        if (!$searchStatement) {
+            $searchError = 'Bus search is temporarily unavailable.';
+        } else {
+            $searchStatement->bind_param('sss', $source, $destination, $journeyDate);
+            $searchStatement->execute();
+            $searchResult = $searchStatement->get_result();
+            while ($bus = $searchResult->fetch_assoc()) {
+                $searchBuses[] = $bus;
+            }
+        }
+    }
+}
+
+$sql = "SELECT * FROM routes WHERE is_popular = 1";
+
+$result = mysqli_query($conn, $sql);
+
+
+
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,129 +82,9 @@
     <title>Online Bus Ticket Booking</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css">
+    <script src="index.js"></script>
 
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background: #f5f7fb;
-        }
-
-        .navbar {
-            background: #ffffff;
-        }
-
-        .navbar-brand {
-            font-size: 25px;
-            font-weight: bold;
-            color: #0d6efd;
-        }
-        
-/* BusGo Carousel */
-
-#busGoCarousel {
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-#busGoCarousel .carousel-item img {
-    width: 100%;
-    height: 500px;
-    object-fit: cover;
-    filter: brightness(65%);
-}
-
-#busGoCarousel .carousel-caption {
-    bottom: 45px;
-    left: 7%;
-    right: 7%;
-    text-align: left;
-}
-
-#busGoCarousel .carousel-caption h2 {
-    font-size: 32px;
-    font-weight: 700;
-    color: white;
-}
-
-#busGoCarousel .carousel-caption p {
-    font-size: 15px;
-    color: #f1f5f9;
-}
-
-#busGoCarousel .carousel-indicators {
-    margin-bottom: 12px;
-}
-
-@media (max-width: 768px) {
-    #busGoCarousel .carousel-item img {
-        height: 210px;
-    }
-
-    #busGoCarousel .carousel-caption {
-        bottom: 25px;
-    }
-
-    #busGoCarousel .carousel-caption h2 {
-        font-size: 20px;
-    }
-
-    #busGoCarousel .carousel-caption p {
-        font-size: 12px;
-    }
-}
-
-       
-
-        .search-box {
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-             position: sticky;
-            
-        }
-        .carousel {
-    position: relative;
-}
-
-        .search-box label {
-            color: #333;
-            font-weight: 600;
-        }
-
-        .section-title {
-            font-weight: bold;
-            color: #222;
-        }
-
-        .route-card {
-            border: none;
-            border-radius: 12px;
-            transition: 0.3s;
-        }
-
-        .route-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .route-card .card-body {
-            padding: 25px;
-        }
-
-        .feature-box {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            text-align: center;
-            height: 100%;
-        }
-
-        footer {
-            background: #111827;
-            color: white;
-            padding: 35px 0;
-        }
-    </style>
 </head>
 
 <body>
@@ -167,11 +122,7 @@
                     <a class="nav-link" href="login.php">Login</a>
                 </li>
 
-                <li class="nav-item ms-lg-2">
-                    <a class="btn btn-primary px-4" href="register.php">
-                        Register
-                    </a>
-                </li>
+               
 
             </ul>
         </div>
@@ -207,19 +158,19 @@
         <!-- Search Box (Floating on top of carousel) -->
         <div class="position-absolute  start-50 translate-middle w-90" style="max-width: 1050px; z-index: 10; top: 75%;">
             <div class="search-box bg-white p-4 rounded-4 shadow-lg">
-                <form action="search_bus.php" method="GET">
+                <form action="index.php#search-results" method="GET">
                     <div class="row g-3 align-items-end">
                         
                         <div class="col-md-3 text-start">
                             <label class="form-label fw-bold">From</label>
                             <select name="source" class="form-select" required>
                                 <option value="">Select City</option>
-                                <option value="Dhaka">Dhaka</option>
-                                <option value="Chattogram">Chattogram</option>
-                                <option value="Bogura">Bogura</option>
-                                <option value="Rajshahi">Rajshahi</option>
-                                <option value="Sylhet">Sylhet</option>
-                                <option value="Khulna">Khulna</option>
+                                <?php foreach ($cities as $city) { ?>
+                                    <option value="<?php echo $city; ?>"
+                                        <?php echo $source === $city ? 'selected' : ''; ?>>
+                                        <?php echo $city; ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </div>
 
@@ -227,18 +178,20 @@
                             <label class="form-label fw-bold">To</label>
                             <select name="destination" class="form-select" required>
                                 <option value="">Select City</option>
-                                <option value="Dhaka">Dhaka</option>
-                                <option value="Chattogram">Chattogram</option>
-                                <option value="Bogura">Bogura</option>
-                                <option value="Rajshahi">Rajshahi</option>
-                                <option value="Sylhet">Sylhet</option>
-                                <option value="Khulna">Khulna</option>
+                                <?php foreach ($cities as $city) { ?>
+                                    <option value="<?php echo $city; ?>"
+                                        <?php echo $destination === $city ? 'selected' : ''; ?>>
+                                        <?php echo $city; ?>
+                                    </option>
+                                <?php } ?>
                             </select>
                         </div>
 
                         <div class="col-md-3 text-start">
                             <label class="form-label fw-bold">Journey Date</label>
-                            <input type="date" name="journey_date" class="form-control" required min="<?php echo date('Y-m-d'); ?>">
+                            <input type="date" name="journey_date" class="form-control" required
+                                   min="<?php echo date('Y-m-d'); ?>"
+                                   value="<?php echo $journeyDate; ?>">
                         </div>
 
                         <div class="col-md-3">
@@ -252,6 +205,46 @@
 
 
 </section>
+
+<?php if ($searchSubmitted) { ?>
+    <section class="container bus-results py-4" id="search-results">
+        <h2 class="bus-results-title mb-3">Available Buses</h2>
+        <?php if ($searchError !== '') { ?>
+            <div class="alert alert-warning" role="alert">
+                <?php echo $searchError; ?>
+            </div>
+        <?php } elseif (!$searchBuses) { ?>
+            <div class="alert alert-info" role="status">No buses found for this route and date.</div>
+        <?php } else { ?>
+            <div class="bus-list">
+                <?php foreach ($searchBuses as $bus) { ?>
+                    <article class="bus-card">
+                        <div class="bus-card-info">
+                            <h3><?php echo $bus['bus_name']; ?></h3>
+                            <p>Bus Number: <?php echo $bus['bus_number']; ?></p>
+                            <p><?php echo $bus['bus_type']; ?></p>
+                        </div>
+                        <div class="bus-card-route">
+                            <h3>
+                                <?php echo $bus['source']; ?>
+                                → <?php echo $bus['destination']; ?>
+                            </h3>
+                            <p>
+                                <?php echo date('h:i A', strtotime($bus['departure_time'])); ?>
+                                to <?php echo date('h:i A', strtotime($bus['arrival_time'])); ?>
+                            </p>
+                        </div>
+                        <div class="bus-card-action">
+                            <div class="bus-price">৳ <?php echo number_format((float)$bus['ticket_price'], 2); ?></div>
+                            <p>Total Seats: <?php echo $bus['total_seats']; ?></p>
+                            <a class="btn btn-primary" href="login.php">Book Seat</a>
+                        </div>
+                    </article>
+                <?php } ?>
+            </div>
+        <?php } ?>
+    </section>
+<?php } ?>
 
 
 
@@ -267,41 +260,40 @@
 
         <div class="row g-4">
 
-            <div class="col-md-4">
-                <div class="card route-card shadow-sm">
-                    <div class="card-body">
-                        <h5>🚌 Dhaka → Chattogram</h5>
-                        <p class="text-muted">Comfortable journey</p>
-                        <a href="#" class="btn btn-outline-primary">
-                            View Buses
-                        </a>
-                    </div>
-                </div>
-            </div>
+        <?php 
+        if($result->num_rows > 0){
+            while($row = $result->fetch_assoc()){
+
+          
+        
+        
+        ?>
 
             <div class="col-md-4">
                 <div class="card route-card shadow-sm">
                     <div class="card-body">
-                        <h5>🚌 Dhaka → Bogura</h5>
-                        <p class="text-muted">Easy online booking</p>
-                        <a href="#" class="btn btn-outline-primary">
-                            View Buses
-                        </a>
-                    </div>
-                </div>
-            </div>
+                        <h5>🚌 
+                        <?php echo $row['source']; ?>
+                                    →
+                                    <?php echo$row['destination']; ?>
 
-            <div class="col-md-4">
-                <div class="card route-card shadow-sm">
-                    <div class="card-body">
-                        <h5>🚌 Dhaka → Sylhet</h5>
-                        <p class="text-muted">Travel with comfort</p>
-                        <a href="#" class="btn btn-outline-primary">
+                        </h5>
+                        <p class="text-muted">
+                            Distance:
+                                    <?php echo $row['distance']; ?> KM
+                        </p>
+                        <a href="login.php" class="btn btn-outline-primary">
                             View Buses
                         </a>
                     </div>
                 </div>
+
+               
             </div>
+ <?php   }}; ?>
+          
+
+            
 
         </div>
 
@@ -376,27 +368,6 @@
 
     </div>
 </footer>
-<script>
-    
-document.addEventListener('DOMContentLoaded', function () {
-
-    const carouselElement = document.getElementById('busGoCarousel');
-
-    if (carouselElement) {
-        new bootstrap.Carousel(carouselElement, {
-            interval: 4000,
-            ride: 'carousel',
-            pause: false,
-            wrap: true,
-            touch: true
-        });
-    }
-
-});
-
-</script>
-
-
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>

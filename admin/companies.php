@@ -7,7 +7,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
     header('Location: ../login.php');
     exit;
 }
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['submit'])) {
 
     $name = $_POST['name'];
     $email = $_POST['email'];
@@ -16,15 +16,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $status = $_POST['status'];
 
     $sql = "INSERT INTO bus_companies
-    (company_name, email, phone, address, status)
-    VALUES ('$name', '$email', '$phone', '$address', '$status')";
+            (company_name, email, phone, address, status)
+            VALUES ('$name', '$email', '$phone', '$address', '$status')";
 
-    $conn->query($sql);
-
-    if ($conn->affected_rows) {
+    if ($conn->query($sql)) {
         header('Location: companies.php?success=added');
         exit;
     }
+
+    header('Location: companies.php?error=add_failed');
+    exit;
 }
 
 $rawData = $conn->query("SELECT * FROM bus_companies");
@@ -76,6 +77,9 @@ include '../includes/admincmsidebar.php';
         </button>
     </div>
 
+    <?php if (isset($_GET['success'])) { ?><div class="alert alert-success" role="status">Company changes saved.</div><?php } ?>
+    <?php if (isset($_GET['error'])) { ?><div class="alert alert-danger" role="alert">Company action failed.</div><?php } ?>
+
     <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
     <!-- Search and Table -->
@@ -110,41 +114,41 @@ include '../includes/admincmsidebar.php';
 
 <tr>
     
-        <td><?php echo $row['company_id']; ?></td>
+        <td><?php echo (int)$row['company_id']; ?></td>
     
 
     <td>
         <div class="company-name">
-            <?php echo $row['company_name']; ?>
+            <?php echo htmlspecialchars($row['company_name'], ENT_QUOTES, 'UTF-8'); ?>
         </div>
     </td>
 
-    <td><?php echo $row['email']; ?></td>
+    <td><?php echo htmlspecialchars($row['email'], ENT_QUOTES, 'UTF-8'); ?></td>
 
-    <td><?php echo $row['phone']; ?></td>
+    <td><?php echo htmlspecialchars($row['phone'], ENT_QUOTES, 'UTF-8'); ?></td>
 
-    <td><?php echo $row['address']; ?></td>
+    <td><?php echo htmlspecialchars($row['address'], ENT_QUOTES, 'UTF-8'); ?></td>
     <td>
     <?php echo date('d M Y, h:i A', strtotime($row['created_at'])); ?>
 </td>
     
 
     <td>
-        <span class="status <?php echo $row['status']; ?>">
-            <?php echo ucfirst($row['status']); ?>
+        <span class="status <?php echo htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8'); ?>">
+            <?php echo htmlspecialchars(ucfirst($row['status']), ENT_QUOTES, 'UTF-8'); ?>
         </span>
     </td>
 
     <td>
        <a class="action-btn edit"
-   href="companies_edit.php?company_id=<?php echo $row['company_id']; ?>">
+   href="companies_edit.php?company_id=<?php echo (int)$row['company_id']; ?>">
     Edit
 </a>
        
         <a
     class="action-btn delete"
     onclick="return confirm('Are you sure to delete?')"
-    href="companies_delete.php?company_id=<?php echo $row['company_id']; ?>">
+    href="companies_delete.php?company_id=<?php echo (int)$row['company_id']; ?>">
     Delete
        </a>
 

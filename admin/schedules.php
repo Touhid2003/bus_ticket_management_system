@@ -26,6 +26,8 @@ $sql = "SELECT
         ORDER BY schedules.departure_date ASC";
 
         $raw = $conn->query($sql);
+$buses = $conn->query("SELECT bus_id, bus_name FROM buses ORDER BY bus_name");
+$routes = $conn->query("SELECT route_id, source, destination, distance FROM routes ORDER BY source, destination");
 
 ?>
 <!DOCTYPE html>
@@ -70,8 +72,11 @@ $sql = "SELECT
                     <h3>Schedules Management</h3>
                     <p>Manage all schedules from here.</p>
                 </div>
-                
+                <button class="btn-add" id="openForm" type="button">Add Schedule</button>
             </div>
+
+            <?php if (isset($_GET['success'])) { ?><div class="alert alert-success" role="status">Schedule changes saved.</div><?php } ?>
+            <?php if (isset($_GET['error'])) { ?><div class="alert alert-danger" role="alert">Schedule action failed or it has bookings.</div><?php } ?>
 
             <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
@@ -117,7 +122,7 @@ $sql = "SELECT
 
                                     <td>
                                         <div class="company-name">
-                                           <?php echo $row['source']. "→" .$row['destination']; ?>
+                                           <?php echo $row['source'] . ' → ' . $row['destination']; ?>
                                         </div>
                                     </td>
                                     <td>
@@ -139,7 +144,7 @@ $sql = "SELECT
 
                                     <td>
 
-                                         <?php echo $row['ticket_price']. " TK"; ?>
+                                         <?php echo number_format((float)$row['ticket_price'], 2) . ' TK'; ?>
                                     </td>
                                      <td>
 
@@ -152,12 +157,13 @@ $sql = "SELECT
 
 
                                     <td>
-                                        <a class="action-btn edit">
+                                        <a class="action-btn edit" href="schedule_edit.php?schedule_id=<?php echo $row['schedule_id']; ?>">
                                             Edit
                                         </a>
 
-                                        <a
-                                            class="action-btn delete">
+                                        <a href="schedule_delete.php?schedule_id=<?php echo $row['schedule_id']; ?>"
+                                            class="action-btn delete"
+                                            onclick="return confirm('Delete this schedule?')">
                                             Delete
                                         </a>
 
@@ -182,40 +188,55 @@ $sql = "SELECT
 
                 <div class="form-heading">
                     <div>
-                        <h4>Add New Routes</h4>
-                        <p>Enter Routes information below.</p>
+                        <h4>Add New Schedule</h4>
+                        <p>Enter schedule information below.</p>
                     </div>
 
                     <button class="close-btn" id="closeForm">&times;</button>
                 </div>
 
-                <form id="companyForm" action="../function/route_add.php" method="post">
+                <form id="companyForm" action="schedule_add.php" method="post">
 
                     <div class="mb-3">
-                        <label>Source</label>
-                        <input type="text" class="form-control"
-                            name="Source" placeholder=" Source" required>
+                        <label>Bus</label>
+                        <select name="bus_id" class="form-select" required>
+                            <?php while ($bus = $buses->fetch_assoc()) { ?>
+                                <option value="<?php echo $bus['bus_id']; ?>"><?php echo $bus['bus_name']; ?></option>
+                            <?php } ?>
+                        </select>
                     </div>
-
                     <div class="mb-3">
-                        <label>Destination</label>
-                        <input type="text" class="form-control"
-                            name="Destination" placeholder="Destination" required>
+                        <label>Route</label>
+                        <select name="route_id" class="form-select" required>
+                            <?php while ($route = $routes->fetch_assoc()) { ?>
+                                <option value="<?php echo $route['route_id']; ?>">
+                                    <?php echo $route['source'] . ' → ' . $route['destination'] . ' (' . $route['distance'] . ' km)'; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
                     </div>
-
                     <div class="mb-3">
-                        <label>Distance</label>
-                        <input type="text" class="form-control"
-                            name="Distance" placeholder="Distance" required>
+                        <label>Departure Date</label>
+                        <input type="date" class="form-control" name="departure_date" required>
                     </div>
-
-
-
+                    <div class="mb-3">
+                        <label>Departure Time</label>
+                        <input type="time" class="form-control" name="departure_time" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Arrival Time</label>
+                        <input type="time" class="form-control" name="arrival_time" required>
+                    </div>
+                    <div class="mb-3">
+                        <label>Ticket Price</label>
+                        <input type="number" min="0" step="0.01" class="form-control" name="ticket_price" required>
+                    </div>
                     <div class="mb-4">
                         <label>Status</label>
-                        <select name="Status" class="form-select" required>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
+                        <select name="status" class="form-select" required>
+                            <option value="scheduled">Scheduled</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
                         </select>
                     </div>
 
@@ -226,7 +247,7 @@ $sql = "SELECT
                         </button>
 
                         <button type="submit" class="btn-save">
-                            Save Admin
+                            Save Schedule
                         </button>
 
                     </div>

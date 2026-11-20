@@ -1,13 +1,31 @@
 <?php
+session_start();
 include '../config/db.php';
 
-$id = $_GET['users_id'];
+if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
+    header('Location: ../login.php');
+    exit;
+}
 
-$conn->query("DELETE FROM users WHERE users_id = '$id'");
+$id = $_GET['user_id'];
 
- if($conn->affected_rows){
-            header("Location: users.php");
-           }
+// Check Customer Bookings
+$sql = "SELECT * FROM bookings WHERE user_id = '$id'";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    header('Location: users.php?error=customer_has_bookings');
+    exit;
+}
 
 
+$sql = "DELETE FROM users WHERE user_id = '$id' AND role = 'customer'";
+
+if ($conn->query($sql) && $conn->affected_rows > 0) {
+    header('Location: users.php?success=deleted');
+    exit;
+}
+
+header('Location: users.php?error=delete_failed');
+exit;
 ?>

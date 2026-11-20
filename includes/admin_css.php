@@ -7,5 +7,8 @@
 
 <link rel="stylesheet" href="../assets/css/companies.css">
 <link rel="stylesheet" href="../assets/css/adminbar.css">
+<!-- <link rel="stylesheet" href="../assets/css/user_home.css"> -->
+
+<!-- <link rel="stylesheet" href="../assets/css/seat.css"> -->
 
 

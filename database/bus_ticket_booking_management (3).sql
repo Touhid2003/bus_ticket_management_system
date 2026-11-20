@@ -47,7 +47,7 @@ CREATE TABLE `booking_seats` (
   `booking_id` int(11) NOT NULL,
   `seat_id` int(11) NOT NULL,
   `passenger_name` varchar(100) NOT NULL,
-  `passenger_phone` int(20) NOT NULL,
+  `passenger_phone` varchar(20) NOT NULL,
   `seat_price` decimal(10,2) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 

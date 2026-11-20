@@ -7,10 +7,10 @@
         <a class="nav-link " href="buses.php" aria-label="Buses" title="Buses"><i class="bi bi-bus-front"></i><span class="nav-text">Buses</span></a>
         <a class="nav-link active" href="route.php" aria-label="Routes" title="Routes"><i class="bi bi-signpost-split"></i><span class="nav-text">Routes</span></a>
         <a class="nav-link" href="schedules.php" aria-label="Schedules" title="Schedules"><i class="bi bi-clock-history"></i><span class="nav-text">Schedules</span></a>
-        <a class="nav-link" href="bookings.html" aria-label="Bookings" title="Bookings"><i class="bi bi-ticket-perforated"></i><span class="nav-text">Bookings</span></a>
-        <a class="nav-link" href="payments.html" aria-label="Payments" title="Payments"><i class="bi bi-credit-card"></i><span class="nav-text">Payments</span></a>
-        <a class="nav-link" href="reports.html" aria-label="Reports" title="Reports"><i class="bi bi-bar-chart-line"></i><span class="nav-text">Reports</span></a>
-        <a class="nav-link" href="settings.html" aria-label="Settings" title="Settings"><i class="bi bi-sliders"></i><span class="nav-text">Settings</span></a>
+        <a class="nav-link" href="bookings.php" aria-label="Bookings" title="Bookings"><i class="bi bi-ticket-perforated"></i><span class="nav-text">Bookings</span></a>
+        <a class="nav-link" href="payments.php" aria-label="Payments" title="Payments"><i class="bi bi-credit-card"></i><span class="nav-text">Payments</span></a>
+        <a class="nav-link" href="reports.php" aria-label="Reports" title="Reports"><i class="bi bi-bar-chart-line"></i><span class="nav-text">Reports</span></a>
+        <a class="nav-link" href="settings.php" aria-label="Settings" title="Settings"><i class="bi bi-sliders"></i><span class="nav-text">Settings</span></a>
     </nav>
     
 </aside>

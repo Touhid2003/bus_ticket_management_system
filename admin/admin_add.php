@@ -7,27 +7,26 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
     exit;
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-if($_SERVER['REQUEST_METHOD'] == 'POST'){
     $name = $_POST['name'];
     $email = $_POST['email'];
     $phone = $_POST['phone'];
-    $password =sha1($_POST['password']) ;
-    $role = $_POST['role'];
     $company_id = $_POST['company_id'];
+
+    $sql = "UPDATE users SET
+            name = '$name',
+            email = '$email',
+            phone = '$phone',
+            company_id = '$company_id'
+            WHERE user_id = '$user_id'";
+
+    if ($conn->query($sql)) {
+        header('Location: admin.php?success=updated');
+        exit;
+    }
 }
 
-$sql = "INSERT INTO users(name,	email, phone, password,role,company_id)
-values('$name', '$email', '$phone', '$password', '$role','$company_id')";
-
-$raw = $conn->query($sql);
-
-if ($conn->affected_rows > 0) {
-    header('Location: admin.php?success=added');
-    exit;
-} else {
-    echo "Admin not added!";
-}
-
-
+header('Location: admin.php?error=update_failed');
+exit;
 ?>

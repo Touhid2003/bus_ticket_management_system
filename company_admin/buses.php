@@ -7,11 +7,15 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'company_admin') {
     header('Location: index.php');
     exit;
 }
-$sql = "SELECT * FROM buses WHERE company_id = 1";
+
+$company_id = $_SESSION['company_id'];
+
+// Get Company Buses
+$sql = "SELECT * FROM buses
+        WHERE company_id = '$company_id'
+        ORDER BY bus_id";
 
 $result = $conn->query($sql);
-
-
 ?>
 
 
@@ -52,6 +56,9 @@ include '../includes/c_buses_bar.php';
                 </button>
             </div>
 
+            <?php if (isset($_GET['success'])) { ?><div class="alert alert-success" role="status">Bus changes saved.</div><?php } ?>
+            <?php if (isset($_GET['error'])) { ?><div class="alert alert-danger" role="alert">Bus action failed or the bus is in use.</div><?php } ?>
+
             <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
             <!-- Search and Table -->
@@ -87,32 +94,32 @@ include '../includes/c_buses_bar.php';
 
                                 <tr>
                                     <td>
-                                      <?php echo $row['bus_id'];?>
+                                      <?php echo (int)$row['bus_id'];?>
                                     </td>
 
                                     <td>
                                         <div class="company-name">
-                                            <?php echo $row['bus_name']; ?>
+                                            <?php echo htmlspecialchars($row['bus_name'], ENT_QUOTES, 'UTF-8'); ?>
                                            
                                         </div>
                                     </td>
                                 <td>
-                                        <?php echo $row['bus_type']; ?>
+                                        <?php echo htmlspecialchars($row['bus_type'], ENT_QUOTES, 'UTF-8'); ?>
                                     </td>
 
                                     <td>
-                                        <?php echo $row['total_seats']; ?>
+                                        <?php echo (int)$row['total_seats']; ?>
                                     </td>
                                     <td>
 
-                                       <?php echo $row['status']; ?>
+                                       <?php echo htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8'); ?>
 
                                     </td>
                                         
 
                                     <td>
 
-                                       <?php echo $row['bus_number']; ?>
+                                       <?php echo htmlspecialchars($row['bus_number'], ENT_QUOTES, 'UTF-8'); ?>
 
                                     </td>
 
@@ -123,12 +130,13 @@ include '../includes/c_buses_bar.php';
 
 
                                     <td>
-                                        <a class="action-btn edit">
+                                        <a class="action-btn edit" href="bus_edit.php?bus_id=<?php echo (int)$row['bus_id']; ?>">
                                             Edit
                                         </a>
 
-                                        <a
-                                            class="action-btn delete">
+                                        <a class="action-btn delete"
+                                           href="bus_delete.php?bus_id=<?php echo (int)$row['bus_id']; ?>"
+                                           onclick="return confirm('Delete this bus?')">
                                             Delete
                                         </a>
 
@@ -168,7 +176,7 @@ include '../includes/c_buses_bar.php';
                     <div class="mb-4">
                         <label>Bus Type</label>
                         <select name="bus_type" class="form-select" required>
-                            <option value="AC">Non-AC</option>
+                            <option value="AC">AC</option>
                             <option value="Non-AC">Non-AC</option>
                             <option value="Sleeper">Sleeper</option>
                             <option value="Business Class">Business Class</option>
@@ -177,7 +185,7 @@ include '../includes/c_buses_bar.php';
 
                     <div class="mb-3">
                         <label>	Total Seats</label>
-                        <input type="text" class="form-control"
+                        <input type="number" min="1" class="form-control"
                             name="total_seats" placeholder="Total Seats" required>
                     </div>
 
@@ -202,7 +210,7 @@ include '../includes/c_buses_bar.php';
                         </button>
 
                         <button type="submit" class="btn-save">
-                            Save Admin
+                            Save Bus
                         </button>
 
                     </div>

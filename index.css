@@ -1,0 +1,218 @@
+ body {
+            font-family: Arial, sans-serif;
+            background: #f5f7fb;
+        }
+
+        .navbar {
+            background: #ffffff;
+        }
+
+        .navbar-brand {
+            font-size: 25px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+        
+/* BusGo Carousel */
+
+#busGoCarousel {
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+#busGoCarousel .carousel-item img {
+    width: 100%;
+    height: 500px;
+    object-fit: cover;
+    filter: brightness(65%);
+}
+
+#busGoCarousel .carousel-caption {
+    bottom: 45px;
+    left: 7%;
+    right: 7%;
+    text-align: left;
+}
+
+#busGoCarousel .carousel-caption h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: white;
+}
+
+#busGoCarousel .carousel-caption p {
+    font-size: 15px;
+    color: #f1f5f9;
+}
+
+#busGoCarousel .carousel-indicators {
+    margin-bottom: 12px;
+}
+
+@media (max-width: 768px) {
+    #busGoCarousel .carousel-item img {
+        height: 210px;
+    }
+
+    #busGoCarousel .carousel-caption {
+        bottom: 25px;
+    }
+
+    #busGoCarousel .carousel-caption h2 {
+        font-size: 20px;
+    }
+
+    #busGoCarousel .carousel-caption p {
+        font-size: 12px;
+    }
+}
+
+       
+
+        .search-box {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+             position: sticky;
+            
+        }
+        .carousel {
+    position: relative;
+}
+
+        .search-box label {
+            color: #333;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-weight: bold;
+            color: #222;
+        }
+
+        .route-card {
+            border: none;
+            border-radius: 12px;
+            transition: 0.3s;
+        }
+
+        .route-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .route-card .card-body {
+            padding: 25px;
+        }
+
+        .feature-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            height: 100%;
+        }
+
+        footer {
+            background: #111827;
+            color: white;
+            padding: 35px 0;
+        }
+
+        .bus-results {
+            margin-top: 45px;
+        }
+
+        .bus-results-title {
+            color: #152238;
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0 0 16px;
+        }
+
+        .bus-list {
+            display: grid;
+            gap: 16px;
+        }
+
+        .bus-card {
+            min-height: 145px;
+            display: grid;
+            grid-template-columns: 27% 47% 26%;
+            align-items: center;
+            background: #fff;
+            border: 1px solid #d9dfeb;
+            border-radius: 15px;
+            box-shadow: 0 7px 18px rgba(31, 45, 61, 0.12);
+            padding: 22px 24px;
+        }
+
+        .bus-card-info h3,
+        .bus-card-route h3 {
+            color: #152238;
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 14px;
+        }
+
+        .bus-card-info p,
+        .bus-card-route p,
+        .bus-card-action p {
+            color: #4b5563;
+            font-size: 16px;
+            margin: 0 0 10px;
+        }
+
+        .bus-card-info p:last-child,
+        .bus-card-route p:last-child,
+        .bus-card-action p:last-child {
+            margin-bottom: 0;
+        }
+
+        .bus-card-route h3 {
+            margin-bottom: 14px;
+        }
+
+        .bus-card-action {
+            text-align: right;
+        }
+
+        .bus-card-action .bus-price {
+            color: #152238;
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+
+        .bus-card-action p {
+            color: #7c8797;
+            font-size: 15px;
+        }
+
+        .bus-card-action .btn {
+            min-width: 102px;
+            margin-top: 8px;
+            border: 0;
+            border-radius: 6px;
+            padding: 7px 14px;
+        }
+
+        @media (max-width: 768px) {
+            .bus-results {
+                margin-top: 30px;
+            }
+
+            .bus-card {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 20px;
+            }
+
+            .bus-card-action {
+                text-align: left;
+            }
+
+            .bus-card-action .btn {
+                width: 100%;
+            }
+        }

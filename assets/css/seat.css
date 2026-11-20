@@ -1,0 +1,388 @@
+:root {
+    --bg: #e9eef0;
+    --ink: #10282f;
+    --muted: #5a6f76;
+    --card: #ffffff;
+    --line: #cdd8dc;
+    --brand: #0f5c6e;
+    --brand-ink: #ffffff;
+    --signal: #f5b700;
+    --signal-ink: #2a2000;
+    --road: #10282f;
+    --road-text: #e9eef0;
+    --taken: #d6dee1;
+    --taken-ink: #8a9ba1;
+    color-scheme: light;
+    box-sizing: border-box;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+        --bg: #0b171b;
+        --ink: #e6eef0;
+        --muted: #97aab1;
+        --card: #13262c;
+        --line: #27414a;
+        --brand: #4fb3c9;
+        --brand-ink: #06191e;
+        --road: #050d10;
+        --road-text: #e6eef0;
+        --taken: #22373f;
+        --taken-ink: #5f7880;
+        color-scheme: dark;
+    }
+}
+
+:root[data-theme="dark"] {
+    --bg: #0b171b;
+    --ink: #e6eef0;
+    --muted: #97aab1;
+    --card: #13262c;
+    --line: #27414a;
+    --brand: #4fb3c9;
+    --brand-ink: #06191e;
+    --road: #050d10;
+    --road-text: #e6eef0;
+    --taken: #22373f;
+    --taken-ink: #5f7880;
+    color-scheme: dark;
+}
+
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    margin: 0
+}
+
+html {
+    scroll-padding-top: env(safe-area-inset-top, 0px)
+}
+
+body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: "Instrument Sans", system-ui, sans-serif;
+    line-height: 1.5;
+    min-height: 100vh
+}
+
+h1,
+h2,
+.brand {
+    font-family: "Bricolage Grotesque", "Arial Black", sans-serif;
+    margin: 0
+}
+
+button {
+    font: inherit;
+    color: inherit
+}
+
+:focus-visible {
+    outline: 3px solid var(--signal);
+    outline-offset: 2px
+}
+
+header {
+    background: var(--road);
+    color: var(--road-text)
+}
+
+.bar {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 14px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+}
+
+.brand {
+    font-weight: 800;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px
+}
+
+.brand i {
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--signal);
+    display: grid;
+    place-items: center;
+    font-style: normal
+}
+
+.steps {
+    font-size: 14px;
+    opacity: .8
+}
+
+.wrap {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 24px 20px 40px;
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 24px;
+    align-items: start
+}
+
+.head {
+    grid-column: 1/-1
+}
+
+.head h1 {
+    font-size: clamp(26px, 4vw, 38px);
+    letter-spacing: -.02em
+}
+
+.muted {
+    color: var(--muted);
+    font-size: 14px
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 20px;
+    padding: 22px
+}
+
+/* bus */
+.legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin-bottom: 18px;
+    font-size: 14px
+}
+
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 7px
+}
+
+.sw {
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    border: 2px solid var(--brand)
+}
+
+.sw.t {
+    background: var(--taken);
+    border-color: var(--taken)
+}
+
+.sw.s {
+    background: var(--signal);
+    border-color: var(--signal)
+}
+
+.bus {
+    max-width: 300px;
+    margin: 0 auto;
+    border: 3px solid var(--line);
+    border-radius: 36px 36px 18px 18px;
+    padding: 16px 18px 22px
+}
+
+.front {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px dashed var(--line);
+    padding: 0 4px 12px;
+    margin-bottom: 14px;
+    font-size: 13px;
+    color: var(--muted)
+}
+
+.wheel {
+    font-size: 24px
+}
+
+.row {
+    display: grid;
+    grid-template-columns: 44px 44px 28px 44px 44px;
+    gap: 8px;
+    justify-content: center;
+    margin-bottom: 8px;
+    align-items: center
+}
+
+.row .lbl {
+    text-align: center;
+    font-size: 12px;
+    color: var(--muted)
+}
+
+.seat {
+    width: 44px;
+    height: 44px;
+    border-radius: 9px 9px 5px 5px;
+    border: 2px solid var(--brand);
+    background: transparent;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 13px
+}
+
+.seat:hover:not(:disabled) {
+    background: color-mix(in srgb, var(--brand) 14%, transparent)
+}
+
+.seat.sel {
+    background: var(--signal);
+    border-color: var(--signal);
+    color: var(--signal-ink)
+}
+
+.seat:disabled {
+    background: var(--taken);
+    border-color: var(--taken);
+    color: var(--taken-ink);
+    cursor: not-allowed
+}
+
+.seat.sel {
+    transition: transform .12s
+}
+
+.seat.sel:active {
+    transform: scale(.94)
+}
+
+/* summary */
+.sum {
+    position: sticky;
+    top: 16px
+}
+
+.sum h2 {
+    font-size: 20px;
+    margin-bottom: 4px
+}
+
+.rt {
+    font-weight: 700;
+    margin: 12px 0 2px
+}
+
+.list {
+    list-style: none;
+    margin: 16px 0;
+    padding: 0;
+    border-top: 2px dashed var(--line)
+}
+
+.list li {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--line)
+}
+
+.tot {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    font-weight: 700;
+    margin: 14px 0 16px
+}
+
+.tot b {
+    font-family: "Bricolage Grotesque", sans-serif;
+    font-size: 28px
+}
+
+.go {
+    width: 100%;
+    min-height: 52px;
+    border: 0;
+    border-radius: 12px;
+    background: var(--brand);
+    color: var(--brand-ink);
+    font-weight: 700;
+    font-size: 17px;
+    cursor: pointer
+}
+
+.go:disabled {
+    opacity: .45;
+    cursor: not-allowed
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 14px;
+    min-height: 21px;
+    margin: 0 0 10px
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 10px;
+    color: var(--brand);
+    font-weight: 600;
+    text-decoration: none
+}
+
+.done {
+    display: none;
+    text-align: center;
+    padding: 10px 0
+}
+
+.done.on {
+    display: block
+}
+
+.done .tick {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--signal);
+    color: var(--signal-ink);
+    display: grid;
+    place-items: center;
+    margin: 0 auto 10px;
+    font-size: 26px;
+    font-weight: 800
+}
+.seat.booked {
+    background: #dc3545;
+    color: white;
+    cursor: not-allowed;
+    opacity: 0.8;
+}
+
+.seat.sel {
+    background: #16a34a;
+    color: white;
+}
+
+@media (max-width:860px) {
+    .wrap {
+        grid-template-columns: 1fr
+    }
+
+    .sum {
+        position: static
+    }
+}
+
+@media (prefers-reduced-motion:reduce) {
+    .seat.sel {
+        transition: none
+    }
+}

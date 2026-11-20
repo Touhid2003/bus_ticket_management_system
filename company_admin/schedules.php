@@ -8,40 +8,44 @@
         exit;
     }
 
+    $company_id = $_SESSION['company_id'];
 
 
-    $sql = "SELECT 
-            schedules.schedule_id,
-            buses.company_id,
-            buses.bus_name,
-            buses.bus_number,
-            buses.bus_type,
-            routes.source,
-            routes.destination,
-            schedules.departure_date,
-            schedules.departure_time,
-            schedules.arrival_time,
-            schedules.ticket_price,
-            schedules.status
+$sql = "SELECT
+        schedules.schedule_id,
+        buses.company_id,
+        buses.bus_name,
+        buses.bus_number,
+        buses.bus_type,
+        routes.source,
+        routes.destination,
+        schedules.departure_date,
+        schedules.departure_time,
+        schedules.arrival_time,
+        schedules.ticket_price,
+        schedules.status
+        FROM schedules
+        INNER JOIN buses ON schedules.bus_id = buses.bus_id
+        INNER JOIN routes ON schedules.route_id = routes.route_id
+        WHERE buses.company_id = '$company_id'
+        ORDER BY schedules.departure_date ASC";
 
-            FROM  schedules INNER JOIN buses
-            ON schedules.bus_id = buses.bus_id
-            INNER JOIN routes
-            ON schedules.route_id = routes.route_id WHERE buses.company_id = '1'
-            ORDER BY schedules.departure_date ASC";
+$raw = $conn->query($sql);
 
-    $raw = $conn->query($sql);
+// Get Active Company Buses
+$sql = "SELECT bus_id, bus_name, bus_number, bus_type
+        FROM buses
+        WHERE company_id = '$company_id'
+        AND status = 'active'";
 
-    $busSql = "SELECT bus_id, bus_name, bus_number, bus_type
-               FROM buses
-               WHERE company_id = '1' AND status = 'active'";
-    $rew = $conn->query($busSql);
+$rew = $conn->query($sql);
 
-    $routeSql = "SELECT route_id, source, destination, distance
-                 FROM routes
-                 WHERE status = 'active'";
-    $routeResult = $conn->query($routeSql);
+// Get Active Routes
+$sql = "SELECT route_id, source, destination, distance
+        FROM routes
+        WHERE status = 'active'";
 
+$routeResult = $conn->query($sql);
     ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -90,6 +94,9 @@
                     </button>
                 </div>
 
+                <?php if (isset($_GET['success'])) { ?><div class="alert alert-success" role="status">Schedule changes saved.</div><?php } ?>
+                <?php if (isset($_GET['error'])) { ?><div class="alert alert-danger" role="alert">Schedule action failed or the schedule has bookings.</div><?php } ?>
+
                 <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
                 <!-- Search and Table -->
@@ -126,25 +133,25 @@
 
                                         <tr>
                                             <td>
-                                                <?php echo $row['schedule_id']; ?>
+                                                <?php echo (int)$row['schedule_id']; ?>
                                             </td>
 
 
                                             <td>
                                                 <div class="company-name">
-                                                    <?php echo $row['source'] . "→" . $row['destination']; ?>
+                                                    <?php echo htmlspecialchars($row['source'] . ' → ' . $row['destination'], ENT_QUOTES, 'UTF-8'); ?>
                                                 </div>
                                             </td>
                                             <td>
                                                 <?php
-                                                echo $row['bus_name'] . " - " .
+                                                echo htmlspecialchars($row['bus_name'] . " - " .
                                                     $row['bus_number'] . " (" .
-                                                    $row['bus_type'] . ")";
+                                                    $row['bus_type'] . ")", ENT_QUOTES, 'UTF-8');
 
                                                 ?>
                                             </td>
                                             <td>
-                                                <?php echo $row['departure_date']; ?>
+                                                <?php echo htmlspecialchars($row['departure_date'], ENT_QUOTES, 'UTF-8'); ?>
 
                                             </td>
                                             <td>
@@ -161,20 +168,21 @@
                                             </td>
 
                                             <td>
-                                                <?php echo $row['ticket_price'] . " TK"; ?>
+                                                <?php echo number_format((float)$row['ticket_price'], 2) . ' TK'; ?>
                                             </td>
 
                                             <td>
-                                                <?php echo $row['status']; ?>
+                                                <?php echo htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8'); ?>
                                             </td>
 
                                             <td>
-                                                <a class="action-btn edit">
+                                                <a class="action-btn edit" href="schedule_edit.php?schedule_id=<?php echo (int)$row['schedule_id']; ?>">
                                                     Edit
                                                 </a>
 
-                                                <a
-                                                    class="action-btn delete">
+                                                <a class="action-btn delete"
+                                                   href="schedule_delete.php?schedule_id=<?php echo (int)$row['schedule_id']; ?>"
+                                                   onclick="return confirm('Delete this schedule?')">
                                                     Delete
                                                 </a>
 
@@ -214,8 +222,8 @@
                             <select name="bus_id" class="form-select" required>
                                 <option value="">Select Bus</option>
                                 <?php while ($row = $rew->fetch_assoc()) { ?>
-                                    <option value="<?php echo $row['bus_id'] ?>">
-                                        <?php echo $row['bus_name'] . ' - ' . $row['bus_number'] . ' (' . $row['bus_type'] . ')' ?>
+                                    <option value="<?php echo (int)$row['bus_id']; ?>">
+                                        <?php echo htmlspecialchars($row['bus_name'] . ' - ' . $row['bus_number'] . ' (' . $row['bus_type'] . ')', ENT_QUOTES, 'UTF-8'); ?>
                                     </option>
                                 <?php } ?>
                             </select>
@@ -226,8 +234,8 @@
                             <select name="route_id" class="form-select" required>
                                 <option value="">Select Route</option>
                                 <?php while ($row = $routeResult->fetch_assoc()) { ?>
-                                    <option value="<?php echo $row['route_id'] ?>">
-                                        <?php echo $row['source'] . ' → ' . $row['destination'] . ' (' . $row['distance'] . ' KM)' ?>
+                                    <option value="<?php echo (int)$row['route_id']; ?>">
+                                        <?php echo htmlspecialchars($row['source'] . ' → ' . $row['destination'] . ' (' . $row['distance'] . ' KM)', ENT_QUOTES, 'UTF-8'); ?>
                                     </option>
                                 <?php } ?>
                             </select>

@@ -60,6 +60,9 @@ $raw = $conn->query($sql);
                 </button>
             </div>
 
+            <?php if (isset($_GET['success'])) { ?><div class="alert alert-success" role="status">Route changes saved.</div><?php } ?>
+            <?php if (isset($_GET['error'])) { ?><div class="alert alert-danger" role="alert">Route action failed or the route is in use.</div><?php } ?>
+
             <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
             <!-- Search and Table -->
@@ -93,16 +96,16 @@ $raw = $conn->query($sql);
 
                                 <tr>
                                     <td>
-                                        <?php echo $row['route_id'];  ?>
+                                        <?php echo (int)$row['route_id'];  ?>
                                     </td>
 
                                     <td>
                                         <div class="company-name">
-                                            <?php echo $row['source'] . "→" . $row['destination']; ?>
+                                            <?php echo$row['source'] . ' → ' . $row['destination']; ?>
                                         </div>
                                     </td>
                                     <td>
-                                        <?php echo $row['source'];  ?>
+                                        <?php echo $row['source']; ?>
                                     </td>
                                     <td>
 
@@ -126,12 +129,13 @@ $raw = $conn->query($sql);
 
 
                                     <td>
-                                        <a class="action-btn edit">
+                                        <a class="action-btn edit" href="route_edit.php?route_id=<?php echo $row['route_id']; ?>">
                                             Edit
                                         </a>
 
-                                        <a
-                                            class="action-btn delete">
+                                        <a href="route_delete.php?route_id=<?php echo $row['route_id']; ?>"
+                                            class="action-btn delete"
+                                            onclick="return confirm('Delete this route?')">
                                             Delete
                                         </a>
 
@@ -163,7 +167,7 @@ $raw = $conn->query($sql);
                     <button class="close-btn" id="closeForm">&times;</button>
                 </div>
 
-                <form id="companyForm" action="../function/route_add.php" method="post">
+                <form id="companyForm" action="route_add.php" method="post">
 
                     <div class="mb-3">
                         <label>Source</label>
@@ -192,7 +196,6 @@ $raw = $conn->query($sql);
                             <option value="inactive">Inactive</option>
                         </select>
                     </div>
-
                     <div class="form-buttons">
 
                         <button type="button" class="btn-cancel" id="cancelForm">
@@ -200,7 +203,7 @@ $raw = $conn->query($sql);
                         </button>
 
                         <button type="submit" class="btn-save">
-                            Save Admin
+                            Save Route
                         </button>
 
                     </div>

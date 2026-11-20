@@ -4,6 +4,7 @@ include_once '../config/db.php';
 
 if(!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin'){
     header('location: ../login.php');
+    exit;
 }
 ?>
 
@@ -39,6 +40,16 @@ include '../includes/topbar.php';
         </div>
     </div>
 
+    <?php
+if (isset($_GET['success'])) {
+    echo '<div class="alert alert-success">Customer deleted.</div>';
+}
+
+if (isset($_GET['error'])) {
+    echo '<div class="alert alert-danger">Customer action failed.</div>';
+}
+?>
+
     <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
     <!-- Search and Table -->
@@ -57,7 +68,7 @@ include '../includes/topbar.php';
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Company Name</th>
+                        <th>Customer Name</th>
                         <th>Email</th>
                         <th>Phone</th>
                         <th>Created At</th>
@@ -77,7 +88,7 @@ while ($row = $result->fetch_assoc()) {
 
 <tr>
     
-        <td><?php echo $row['user_id']; ?></td>
+        <td><?php echo (int)$row['user_id']; ?></td>
     
 
     <td>
@@ -91,7 +102,7 @@ while ($row = $result->fetch_assoc()) {
     <td><?php echo $row['phone']; ?></td>
 
     <td>
-    <?php echo ($row['created_at']); ?>
+    <?php echo $row['created_at']; ?>
 </td>
     
 
@@ -104,7 +115,7 @@ while ($row = $result->fetch_assoc()) {
     Delete
 </a>
 
-  <a class="action-btn view" href="">
+  <a class="action-btn view" href="users_view.php?user_id=<?php echo $row['user_id']; ?>">
     view
 </a>
 

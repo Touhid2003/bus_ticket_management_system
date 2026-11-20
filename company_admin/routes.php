@@ -84,32 +84,32 @@ include '../includes/c_routes_bar.php';
 
                                 <tr>
                                     <td>
-                                      <?php echo $row['route_id'];?>
+                                      <?php echo (int)$row['route_id'];?>
                                     </td>
 
                                     <td>
                                         <div class="company-name">
-                                            <?php echo $row['source']. "→". $row['destination']; ?>
+                                            <?php echo htmlspecialchars($row['source'] . ' → ' . $row['destination'], ENT_QUOTES, 'UTF-8'); ?>
                                            
                                         </div>
                                     </td>
                                 <td>
-                                        <?php echo $row['source']; ?>
+                                        <?php echo htmlspecialchars($row['source'], ENT_QUOTES, 'UTF-8'); ?>
                                     </td>
 
                                     <td>
-                                        <?php echo $row['destination']; ?>
+                                        <?php echo htmlspecialchars($row['destination'], ENT_QUOTES, 'UTF-8'); ?>
                                     </td>
                                     <td>
 
-                                       <?php echo $row['distance']; ?>
+                                       <?php echo number_format((float)$row['distance'], 2); ?>
 
                                     </td>
                                         
 
                                     <td>
 
-                                       <?php echo $row['status']; ?>
+                                       <?php echo htmlspecialchars($row['status'], ENT_QUOTES, 'UTF-8'); ?>
 
                                     </td>
 
@@ -122,77 +122,6 @@ include '../includes/c_routes_bar.php';
 
             </div>
         </div>
-
-        <div class="form-overlay" id="formOverlay">
-
-            <div class="form-popup">
-
-                <div class="form-heading">
-                    <div>
-                        <h4>Add New Buses</h4>
-                        <p>Enter Buses information below.</p>
-                    </div>
-
-                    <button class="close-btn" id="closeForm">&times;</button>
-                </div>
-
-                <form id="companyForm" action="../function/c_buses_add.php" method="post">
-
-                    <div class="mb-3">
-                        <label>Bus Name</label>
-                        <input type="text" class="form-control"
-                            name="bus_name" placeholder="Bus Name" required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label>Bus Type</label>
-                        <select name="bus_type" class="form-select" required>
-                            <option value="AC">Non-AC</option>
-                            <option value="Non-AC">Non-AC</option>
-                            <option value="Sleeper">Sleeper</option>
-                            <option value="Business Class">Business Class</option>
-                        </select>
-                    </div>
-
-                    <div class="mb-3">
-                        <label>	Total Seats</label>
-                        <input type="text" class="form-control"
-                            name="total_seats" placeholder="Total Seats" required>
-                    </div>
-
-
-                    <div class="mb-4">
-                        <label>Status</label>
-                        <select name="status" class="form-select" required>
-                            <option value="active">Active</option>
-                            <option value="inactive">Inactive</option>
-                        </select>
-                    </div>
-                     <div class="mb-3">
-                        <label>	Bus Number</label>
-                        <input type="text" class="form-control"
-                            name="bus_number" placeholder="Bus Number" required>
-                    </div>
-
-                    <div class="form-buttons">
-
-                        <button type="button" class="btn-cancel" id="cancelForm">
-                            Cancel
-                        </button>
-
-                        <button type="submit" class="btn-save">
-                            Save Admin
-                        </button>
-
-                    </div>
-
-                </form>
-
-            </div>
-        </div>
-
-
-      
 
     </div>
            

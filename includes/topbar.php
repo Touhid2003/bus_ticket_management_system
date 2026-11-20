@@ -11,7 +11,7 @@
 
     <span class="logo-text">
        
-        <small>ONLINE TICKETING</small>
+        <small>  BusTicket</small>
     </span>
 
 </a>

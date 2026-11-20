@@ -12,10 +12,11 @@ if($_SERVER['REQUEST_METHOD']=== "POST"){
     $destination = $_POST['Destination'];
     $distance = $_POST['Distance'];
     $status = $_POST['Status'];
+    $is_popular = isset($_POST['is_popular']) ? 1:0;
 
    $sql = "INSERT INTO routes
-(source, destination, distance, status)
-VALUES ('$source', '$destination', '$distance', '$status')";
+(source, destination, distance, status,is_popular)
+VALUES ('$source', '$destination', '$distance', '$status','$is_popular')";
     
     $result = $conn->query($sql);
 

@@ -37,6 +37,7 @@ require_once 'config/db.php';
                     $_SESSION['name'] = $user['name'];
                     $_SESSION['email'] = $user['email'];
                     $_SESSION['role'] = $user['role'];
+                    $_SESSION['company_id'] = (int)($user['company_id'] ?? 0);
                    
 
 
@@ -47,7 +48,7 @@ require_once 'config/db.php';
                         header("Location:company_admin/dashboard.php");
                     } elseif ($user['role'] === "customer") {
 
-                    header("Location:users/dashboard.php");
+                    header("Location:users/home.php");
 
 }
                     exit;

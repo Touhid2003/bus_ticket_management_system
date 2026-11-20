@@ -13,7 +13,7 @@ body {
   font-family: "Inter", "Nirmala UI", system-ui, sans-serif;
 }
 .header-card {
-  margin-top: -14px;
+  margin-top: 0;
   margin-bottom: 12px;
     background: #fff;
     padding-top: 12px;
@@ -175,6 +175,10 @@ body {
   flex: 1;
   min-width: 0;
   padding: 28px;
+}
+
+.layout > main.content {
+  margin-top: 0;
 }
 
 .card {

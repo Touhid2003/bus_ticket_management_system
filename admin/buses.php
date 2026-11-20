@@ -8,9 +8,12 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'super_admin') {
     exit;
 }
 
- $sql = "SELECT * FROM buses";
-
- $raw = $conn->query($sql);
+$sql = "SELECT buses.*, bus_companies.company_name
+        FROM buses
+        LEFT JOIN bus_companies ON buses.company_id = bus_companies.company_id
+        ORDER BY buses.bus_id";
+$raw = $conn->query($sql);
+$companies = $conn->query("SELECT company_id, company_name FROM bus_companies ORDER BY company_name");
 
 ?>
 <!DOCTYPE html>
@@ -55,7 +58,11 @@ include '../includes/buses.php';
             <h3>Buses Management</h3>
             <p>Manage all buses from here.</p>
         </div>
+        <button class="btn-add" id="openForm" type="button">Add Bus</button>
     </div>
+
+    <?php if (isset($_GET['success'])) { ?><div class="alert alert-success" role="status">Bus changes saved.</div><?php } ?>
+    <?php if (isset($_GET['error'])) { ?><div class="alert alert-danger" role="alert">Bus action failed or the bus is in use.</div><?php } ?>
 
     <div id="companyMessage" class="alert d-none" role="status" aria-live="polite"></div>
 
@@ -75,7 +82,7 @@ include '../includes/buses.php';
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>Company Id</th>
+                        <th>Company</th>
                         <th>Bus Name</th>
                         <th>Bus Type</th>
                         <th>Total Seats</th>
@@ -93,18 +100,18 @@ include '../includes/buses.php';
     
         <td> <?php echo $row['bus_id'] ?></td>
          <td>
-        <?php echo $row['company_id'];  ?>
+        <?php echo htmlspecialchars($row['company_name'] ?? $row['company_id'], ENT_QUOTES, 'UTF-8'); ?>
     </td>
     
 
     <td>
         <div class="company-name">
-       <?php  echo $row['bus_name']; ?>
+       <?php echo $row['bus_name']; ?>
         </div>
     </td>
 
     <td>
-        <?php echo $row['bus_type'];  ?>
+        <?php echo $row['bus_type']; ?>
     </td>
 
     <td>
@@ -115,7 +122,7 @@ include '../includes/buses.php';
          <?php echo $row['status']; ?>
     </td>
     <td>
-         <?php echo $row['bus_number'];  ?>
+         <?php echo $row['bus_number']; ?>
    
 </td>
     
@@ -123,12 +130,13 @@ include '../includes/buses.php';
    
 
     <td>
-       <a class="action-btn edit">
+       <a class="action-btn edit" href="bus_edit.php?bus_id=<?php echo $row['bus_id']; ?>">
     Edit
 </a>
        
-        <a
-    class="action-btn delete">
+        <a href="bus_delete.php?bus_id=<?php echo $row['bus_id']; ?>"
+    class="action-btn delete"
+    onclick="return confirm('Delete this bus?')">
     Delete
        </a>
 
@@ -153,62 +161,52 @@ include '../includes/buses.php';
 
         <div class="form-heading">
             <div>
-                <h4>Add New Admin</h4>
-                <p>Enter admin information below.</p>
+                <h4>Add New Bus</h4>
+                <p>Enter bus information below.</p>
             </div>
 
             <button class="close-btn" id="closeForm">&times;</button>
         </div>
 
-        <form id="companyForm" action="admin_add.php" method="post">
+        <form id="companyForm" action="bus_add.php" method="post">
 
             <div class="mb-3">
-                <label>Full Name</label>
-                <input type="text" class="form-control"
-                       name="name" placeholder="Enter Full Name" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Email Address</label>
-                <input type="email" class="form-control"
-                       name="email" placeholder="Enter Email Address" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Phone Number</label>
-                <input type="text" class="form-control"
-                       name="phone" placeholder="Enter Phone Number" required>
-            </div>
-
-            <div class="mb-3">
-                <label>Password</label>
-                <input type="password" class="form-control"
-                       name="password" placeholder="Enter Password" required>
-            </div>
-
-            <div class="mb-4">
-                <label>Role</label>
-                <select class="form-select" name="role" required>
-                    <option value="company_admin">Company Admin</option>
-                </select>
-            </div>
-
-            <div class="mb-4">
                 <label>Company</label>
-
                 <select class="form-select" name="company_id" required>
                     <option value="">Select Company</option>
-
-                    <?php
-                    $companies = $conn->query("SELECT * FROM bus_companies");
-
-                    while ($company = $companies->fetch_assoc()) {
-                    ?>
+                    <?php while ($company = $companies->fetch_assoc()) { ?>
                         <option value="<?php echo $company['company_id']; ?>">
-                            <?php echo htmlspecialchars($company['company_name']); ?>
+                            <?php echo $company['company_name']; ?>
                         </option>
                     <?php } ?>
-
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Bus Name</label>
+                <input type="text" class="form-control" name="bus_name" required>
+            </div>
+            <div class="mb-3">
+                <label>Bus Type</label>
+                <select class="form-select" name="bus_type" required>
+                    <option value="AC">AC</option>
+                    <option value="Non-AC">Non-AC</option>
+                    <option value="Sleeper">Sleeper</option>
+                    <option value="Business Class">Business Class</option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label>Total Seats</label>
+                <input type="number" min="1" class="form-control" name="total_seats" required>
+            </div>
+            <div class="mb-3">
+                <label>Bus Number</label>
+                <input type="text" class="form-control" name="bus_number" required>
+            </div>
+            <div class="mb-4">
+                <label>Status</label>
+                <select class="form-select" name="status" required>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
                 </select>
             </div>
 
@@ -219,7 +217,7 @@ include '../includes/buses.php';
                 </button>
 
                 <button type="submit" class="btn-save">
-                    Save Admin
+                    Save Bus
                 </button>
 
             </div>
