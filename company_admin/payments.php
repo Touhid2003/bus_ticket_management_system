@@ -39,6 +39,7 @@ $payments = $conn->query($sql);
     <main class="container-fluid py-4 px-4">
         <div class="page-header">
             <div><h3>Payments</h3><p>Payments for your company bookings.</p></div>
+            <a class="action-btn view" href="reports.php"><i class="bi bi-printer"></i> Income Report</a>
         </div>
         <div class="company-card">
             <div class="table-header">
@@ -55,12 +56,12 @@ $payments = $conn->query($sql);
                             <tr>
                                 <td><?php echo (int)$payment['payment_id']; ?></td>
                                 <td><?php echo (int)$payment['booking_id']; ?></td>
-                                <td><?php echo htmlspecialchars($payment['name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($payment['payment_method'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($payment['transaction_id'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo ($payment['name']); ?></td>
+                                <td><?php echo ($payment['payment_method']); ?></td>
+                                <td><?php echo ($payment['transaction_id']); ?></td>
                                 <td><?php echo number_format((float)$payment['amount'], 2); ?> TK</td>
-                                <td><?php echo htmlspecialchars($payment['payment_status'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($payment['payment_date'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo ($payment['payment_status']); ?></td>
+                                <td><?php echo ($payment['payment_date']); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

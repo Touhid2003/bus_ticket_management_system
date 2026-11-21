@@ -38,17 +38,13 @@ include 'search_bus.php';
   <title>Home · Routeline Bus</title>
   <?php include '../includes/admin_css.php' ?>
   <link rel="stylesheet" href="../assets/css/user_home.css">
+  <link rel="stylesheet" href="../assets/css/customer_topbar.css">
 
 </head>
 
 <body>
   <header>
-    <div class="bar">
-      <div class="brand"><i>🚌</i>Routeline</div>
-      <div class="user"><span class="n"><?php echo strtoupper($_SESSION['name']); ?></span>
-        <div class="av" aria-hidden="true"><?php echo strtoupper(substr($_SESSION['name'], 0, 2)); ?></div><a class="out" href="../login.php" style="text-decoration:none;display:inline-flex;align-items:center">Log out</a>
-      </div>
-    </div>
+    <?php include 'customer_topbar.php'; ?>
     <div class="hero">
       <h1>Where to next, <?php echo strtoupper($_SESSION['name']); ?>?</h1>
       <p>Pick a route and date to see buses with open seats.</p>
@@ -101,19 +97,19 @@ include 'search_bus.php';
 
             <div class="card bus">
               <div class="bus-info">
-                <h2><?php echo htmlspecialchars($bus['bus_name']); ?></h2>
+                <h2><?php echo ($bus['bus_name']); ?></h2>
                 <h6>
                   Bus Number:
-                  <?php echo htmlspecialchars($bus['bus_number']); ?>
+                  <?php echo ($bus['bus_number']); ?>
                 </h6>
-                <h6><?php echo htmlspecialchars($bus['bus_type']); ?></h6>
+                <h6><?php echo ($bus['bus_type']); ?></h6>
               </div>
 
               <div class="bus-route">
                 <h3>
-                  <?php echo htmlspecialchars($bus['source']); ?>
+                  <?php echo ($bus['source']); ?>
                   →
-                  <?php echo htmlspecialchars($bus['destination']); ?>
+                  <?php echo ($bus['destination']); ?>
                 </h3>
                 <h5>
 
@@ -174,9 +170,9 @@ include 'search_bus.php';
               <div class="card route-card shadow-sm">
                 <div class="card-body">
                   <h5>
-                    <?php echo htmlspecialchars($route['source']); ?>
+                    <?php echo ($route['source']); ?>
                     →
-                    <?php echo htmlspecialchars($route['destination']); ?>
+                    <?php echo ($route['destination']); ?>
                   </h5>
                   <p class="text-muted">
                     Distance:

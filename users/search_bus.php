@@ -23,10 +23,7 @@ if ($source == '' || $destination == '' || $journey_date == '') {
 
 } else {
 
-    // Escape Search Data
-    // $source = $conn->real_escape_string($source);
-    // $destination = $conn->real_escape_string($destination);
-    // $journey_date = $conn->real_escape_string($journey_date);
+   
 
     // Search Bus SQL
     $sql = "SELECT

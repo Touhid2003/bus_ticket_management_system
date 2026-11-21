@@ -10,7 +10,7 @@ if (!isset($_SESSION['role']) || $_SESSION['role'] !== 'company_admin') {
 $company_id = $_SESSION['company_id'];
 $booking_id = $_GET['booking_id'] ?? 0;
 
-// Get Passenger Information
+
 $sql = "SELECT booking_seats.passenger_name,
         booking_seats.passenger_phone,
         seats.seat_number,
@@ -30,7 +30,7 @@ $sql = "SELECT booking_seats.passenger_name,
         LEFT JOIN seats ON booking_seats.seat_id = seats.seat_id
         WHERE buses.company_id = '$company_id'";
 
-// Filter by Booking ID
+
 if ($booking_id > 0) {
     $sql .= " AND bookings.booking_id = '$booking_id'";
 }
@@ -69,15 +69,15 @@ $passengers = $conn->query($sql);
                     <tbody>
                         <?php while ($passenger = $passengers->fetch_assoc()) { ?>
                             <tr>
-                                <td><?php echo htmlspecialchars($passenger['passenger_name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($passenger['passenger_phone'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($passenger['seat_number'] ?? 'N/A', ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo ($passenger['passenger_name']); ?></td>
+                                <td><?php echo ($passenger['passenger_phone']); ?></td>
+                                <td><?php echo ($passenger['seat_number'] ?? 'N/A'); ?></td>
                                 <td><?php echo (int)$passenger['booking_id']; ?></td>
-                                <td><?php echo htmlspecialchars($passenger['booked_by'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($passenger['bus_name'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($passenger['source'] . ' → ' . $passenger['destination'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($passenger['departure_date'], ENT_QUOTES, 'UTF-8'); ?></td>
-                                <td><?php echo htmlspecialchars($passenger['booking_status'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo ($passenger['booked_by']); ?></td>
+                                <td><?php echo ($passenger['bus_name']); ?></td>
+                                <td><?php echo ($passenger['source'] . ' → ' . $passenger['destination'], ENT_QUOTES, 'UTF-8'); ?></td>
+                                <td><?php echo ($passenger['departure_date']); ?></td>
+                                <td><?php echo ($passenger['booking_status']); ?></td>
                             </tr>
                         <?php } ?>
                     </tbody>

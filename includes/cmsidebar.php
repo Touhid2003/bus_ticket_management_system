@@ -8,6 +8,7 @@
         <a class="nav-link <?php echo $active_page === 'bookings.php' ? 'active' : ''; ?>" href="bookings.php" aria-label="Bookings" title="Bookings"><i class="bi bi-ticket-perforated"></i><span class="nav-text">Bookings</span></a>
         <a class="nav-link <?php echo $active_page === 'passengers.php' ? 'active' : ''; ?>" href="passengers.php" aria-label="Passengers" title="Passengers"><i class="bi bi-people"></i><span class="nav-text">Passengers</span></a>
         <a class="nav-link <?php echo $active_page === 'payments.php' ? 'active' : ''; ?>" href="payments.php" aria-label="Payments" title="Payments"><i class="bi bi-credit-card"></i><span class="nav-text">Payments</span></a>
+        <a class="nav-link <?php echo $active_page === 'reports.php' ? 'active' : ''; ?>" href="reports.php" aria-label="Income Report" title="Income Report"><i class="bi bi-printer"></i><span class="nav-text">Income Report</span></a>
         <a class="nav-link <?php echo $active_page === 'company_profile.php' ? 'active' : ''; ?>" href="company_profile.php" aria-label="Company Profile" title="Company Profile"><i class="bi bi-building"></i><span class="nav-text">Company Profile</span></a>
     </nav>
    

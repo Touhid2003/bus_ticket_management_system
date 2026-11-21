@@ -104,7 +104,13 @@ function loadBooking($conn, $bookingId, $userId)
 
     $sql = "SELECT b.booking_id, b.booking_status, b.total_amount,
                    s.departure_date, s.departure_time, bus.bus_name,
-                   r.source, r.destination
+                   r.source, r.destination,
+                   COALESCE((
+                       SELECT SUM(p.amount)
+                       FROM payments p
+                       WHERE p.booking_id = b.booking_id
+                       AND p.payment_status = 'paid'
+                   ), 0) AS paid_amount
             FROM bookings b
             INNER JOIN schedules s ON b.schedule_id = s.schedule_id
             INNER JOIN buses bus ON s.bus_id = bus.bus_id
@@ -134,6 +140,10 @@ function loadBooking($conn, $bookingId, $userId)
     }
 
     return $booking;
+}
+
+if (!isset($_SESSION['cancel_booking_csrf'])) {
+    $_SESSION['cancel_booking_csrf'] = bin2hex(random_bytes(32));
 }
 
 
@@ -389,9 +399,22 @@ if ($isBookingSubmit) {
             </div>
             <section class="card">
                 <?php if ($booking): ?>
+                    <?php if (isset($_GET['cancelled'])): ?>
+                        <div class="notice success">
+                            Booking cancelled successfully.<br>
+                            Cancellation charge: <strong>৳ <?php echo number_format((float)($_GET['charge'] ?? 0), 2); ?></strong><br>
+                            Refund amount: <strong>৳ <?php echo number_format((float)($_GET['refund'] ?? 0), 2); ?></strong>
+                        </div>
+                    <?php elseif (isset($_GET['cancel_error'])): ?>
+                        <div class="notice error"><?php echo escapeHtml((string)$_GET['cancel_error']); ?></div>
+                    <?php endif; ?>
                     <div class="notice success">
                         Your booking is <strong><?php echo escapeHtml(ucfirst($booking['booking_status'])); ?></strong>.
-                        Complete payment by bKash to finish your booking.
+                        <?php if ($booking['booking_status'] === 'pending'): ?>
+                            Complete payment by bKash to finish your booking.
+                        <?php elseif ($booking['booking_status'] === 'cancelled'): ?>
+                            This booking is no longer active.
+                        <?php endif; ?>
                     </div>
                     <p><strong><?php echo escapeHtml($booking['source']); ?> → <?php echo escapeHtml($booking['destination']); ?></strong></p>
                     <p class="muted">
@@ -408,7 +431,42 @@ if ($isBookingSubmit) {
                         <?php endforeach; ?>
                     </ul>
                     <p><strong>Total: ৳ <?php echo number_format((float)$booking['total_amount'], 2); ?></strong></p>
-                    <a class="go" href="payment.php?booking_id=<?php echo (int)$booking['booking_id']; ?>">Continue to bKash payment</a>
+                    <?php if ($booking['booking_status'] === 'pending'): ?>
+                        <a class="go" href="payment.php?booking_id=<?php echo (int)$booking['booking_id']; ?>">Continue to bKash payment</a>
+                        <form action="cancel_booking.php" method="post" onsubmit="return confirm('Cancel this unpaid booking?');" style="margin-top:12px;">
+                            <input type="hidden" name="booking_id" value="<?php echo (int)$booking['booking_id']; ?>">
+                            <input type="hidden" name="csrf_token" value="<?php echo escapeHtml($_SESSION['cancel_booking_csrf'] ?? ''); ?>">
+                            <button type="submit" class="go" style="border:0;background:#dc3545;">Cancel Unpaid Booking</button>
+                        </form>
+                    <?php elseif ($booking['booking_status'] === 'confirmed'): ?>
+                        <?php
+                            $departureTimestamp = strtotime($booking['departure_date'] . ' ' . $booking['departure_time']);
+                            $hoursBeforeDeparture = ($departureTimestamp - time()) / 3600;
+                        ?>
+                        <a class="go" href="ticket.php?booking_id=<?php echo (int)$booking['booking_id']; ?>" style="display:inline-block;text-align:center;margin-bottom:12px;">View Ticket</a>
+                        <?php if ($hoursBeforeDeparture > 0): ?>
+                            <?php
+                                $paidAmount = min((float)$booking['paid_amount'], (float)$booking['total_amount']);
+                                $chargePercent = $hoursBeforeDeparture >= 5 ? 60 : 100;
+                                $chargeAmount = $paidAmount * $chargePercent / 100;
+                                $refundAmount = $paidAmount - $chargeAmount;
+                                $refundPercent = 100 - $chargePercent;
+                            ?>
+                            <div class="notice">
+                                Cancellation charge: <strong><?php echo $chargePercent; ?>%</strong>
+                                (৳ <?php echo number_format($chargeAmount, 2); ?>)<br>
+                                Refund: <strong><?php echo $refundPercent; ?>%</strong>
+                                (৳ <?php echo number_format($refundAmount, 2); ?>)
+                            </div>
+                            <form action="cancel_booking.php" method="post" onsubmit="return confirm('Cancel this booking?');">
+                                <input type="hidden" name="booking_id" value="<?php echo (int)$booking['booking_id']; ?>">
+                                <input type="hidden" name="csrf_token" value="<?php echo escapeHtml($_SESSION['cancel_booking_csrf'] ?? ''); ?>">
+                                <label for="cancel_reason">Reason (optional)</label>
+                                <input type="text" id="cancel_reason" name="reason" maxlength="500" placeholder="Enter cancellation reason">
+                                <button type="submit" class="go" style="border:0;margin-top:12px;background:#dc3545;">Cancel Booking</button>
+                            </form>
+                        <?php endif; ?>
+                    <?php endif; ?>
                 <?php else: ?>
                     <div class="notice error">Booking not found.</div>
                 <?php endif; ?>

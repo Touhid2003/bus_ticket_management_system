@@ -13,11 +13,26 @@ Manual ticket counters cause long queues, double bookings and lost paper records
 - **Admin features:** manage buses, routes, schedules, fares, users and bookings; dashboard with bookings, income and active buses; daily, weekly and monthly reports.
 - **No double booking:** a seat is locked as soon as it is booked.
 - **Security:** password hashing, prepared statements, input validation and output escaping, role-based access control.
-- **Out of scope:** real payment gateway (simulated payment record is used), mobile apps, GPS tracking.
+- **Payments:** bKash sandbox checkout is available for testing; local demo payment is also available.
+- **Out of scope:** production payment processing, mobile apps, GPS tracking.
 
 ## Technology
 
-HTML5, CSS3, JavaScript, Bootstrap · PHP · MySQL · Apache (XAMPP) · three-tier architecture
+HTML5, CSS3, JavaScript, Bootstrap · PHP · MySQL · Apache (XAMPP) · PHP cURL · three-tier architecture
+
+## bKash Sandbox Testing
+
+Get sandbox credentials from the bKash developer portal and configure these environment variables for the Apache/PHP process. Do not commit credentials to the repository.
+
+- `BKASH_SANDBOX_ENABLED=true`
+- `BKASH_SANDBOX_APP_KEY`
+- `BKASH_SANDBOX_APP_SECRET`
+- `BKASH_SANDBOX_USERNAME`
+- `BKASH_SANDBOX_PASSWORD`
+- `BKASH_SANDBOX_CALLBACK_URL` — the base URL of `users/payment.php`, without query parameters (for example, `http://localhost/bus_ticket_management_system/users/payment.php` for a local XAMPP project)
+- `BKASH_SANDBOX_BASE_URL` — optional; defaults to `https://tokenized.sandbox.bka.sh/v1.2.0-beta`
+
+Enable the PHP cURL extension. Once configured, select **Pay with bKash Sandbox** on a pending booking; the customer completes the sandbox checkout and is returned to the site for server-side verification. This does not process a real payment. The separate local demo button only simulates a payment and does not contact bKash.
 
 ## Database
 
