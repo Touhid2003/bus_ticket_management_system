@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 20, 2026 at 05:46 PM
+-- Generation Time: Nov 21, 2026 at 07:30 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -62,7 +62,11 @@ INSERT INTO `bookings` (`booking_id`, `user_id`, `schedule_id`, `booking_date`, 
 (19, 4, 11, '2026-11-19 11:46:21', 600.00, 'pending'),
 (20, 4, 11, '2026-11-19 11:49:08', 600.00, 'pending'),
 (21, 4, 11, '2026-11-19 11:53:24', 600.00, 'pending'),
-(22, 4, 11, '2026-11-19 12:06:42', 600.00, 'pending');
+(22, 4, 11, '2026-11-19 12:06:42', 600.00, 'pending'),
+(23, 4, 14, '2026-11-21 19:47:32', 1200.00, 'confirmed'),
+(24, 4, 14, '2026-11-21 23:28:18', 600.00, 'confirmed'),
+(25, 4, 14, '2026-11-21 23:40:51', 600.00, 'confirmed'),
+(26, 4, 16, '2026-11-22 00:18:28', 700.00, 'confirmed');
 
 -- --------------------------------------------------------
 
@@ -106,7 +110,12 @@ INSERT INTO `booking_seats` (`booking_seats`, `booking_id`, `seat_id`, `passenge
 (20, 19, 19, 'ksjfksj', 2147483647, 600.00),
 (21, 20, 18, 'touhid', 2147483647, 600.00),
 (22, 21, 26, 'fjskd', 483248373, 600.00),
-(23, 22, 25, 'sdifh', 329483298, 600.00);
+(23, 22, 25, 'sdifh', 329483298, 600.00),
+(24, 23, 54, 'touhid', 2147483647, 600.00),
+(25, 23, 55, 'touhid', 2147483647, 600.00),
+(26, 24, 56, 'touhid', 2147483647, 600.00),
+(27, 25, 62, 'shron', 2147483647, 600.00),
+(28, 26, 18, 'jahin', 1735132240, 700.00);
 
 -- --------------------------------------------------------
 
@@ -202,7 +211,11 @@ INSERT INTO `payments` (`payment_id`, `booking_id`, `payment_method`, `transacti
 (4, 13, 'bKash Demo', 'DEMO-90EECB8491A008AD', 700.00, 'paid', '2026-11-19 02:44:39'),
 (5, 14, 'bKash Demo', 'DEMO-71438116FE52224A', 600.00, 'paid', '2026-11-19 10:52:34'),
 (6, 15, 'bKash Demo', 'DEMO-43D9C9BA623E3F27', 600.00, 'paid', '2026-11-19 11:34:16'),
-(7, 17, 'bKash Demo', 'DEMO-8413AFC2A302091C', 600.00, 'paid', '2026-11-19 11:39:34');
+(7, 17, 'bKash Demo', 'DEMO-8413AFC2A302091C', 600.00, 'paid', '2026-11-19 11:39:34'),
+(8, 23, 'bKash Demo', 'DEMO-FDB09B50C9D41984', 1200.00, 'paid', '2026-11-21 19:47:40'),
+(9, 24, 'bKash Demo', 'DEMO-C2B1376018FA6494', 600.00, 'paid', '2026-11-21 23:28:21'),
+(10, 25, 'bKash Demo', 'DEMO-210295B4F3BB07B1', 600.00, 'paid', '2026-11-21 23:40:53'),
+(11, 26, 'bKash Demo', 'DEMO-4DFB1FC7748C3C50', 700.00, 'paid', '2026-11-22 00:18:31');
 
 -- --------------------------------------------------------
 
@@ -272,7 +285,11 @@ INSERT INTO `schedules` (`schedule_id`, `bus_id`, `route_id`, `departure_date`, 
 (2, 3, 3, '2026-11-17', '08:00:00', '15:59:00', 500.00, 'scheduled'),
 (11, 3, 1, '2026-11-19', '02:01:00', '20:01:00', 600.00, 'scheduled'),
 (12, 1, 1, '2026-11-19', '12:29:00', '16:29:00', 700.00, 'scheduled'),
-(13, 3, 1, '2026-11-20', '13:36:00', '18:36:00', 800.00, 'scheduled');
+(13, 3, 1, '2026-11-20', '13:36:00', '18:36:00', 800.00, 'scheduled'),
+(14, 1, 2, '2026-11-21', '15:46:00', '12:46:00', 600.00, 'scheduled'),
+(15, 4, 1, '2026-11-24', '08:15:00', '15:15:00', 800.00, 'scheduled'),
+(16, 3, 1, '2026-11-22', '10:16:00', '19:16:00', 700.00, 'scheduled'),
+(17, 1, 3, '2026-11-22', '08:17:00', '17:17:00', 900.00, 'scheduled');
 
 -- --------------------------------------------------------
 
@@ -416,7 +433,7 @@ INSERT INTO `users` (`user_id`, `name`, `email`, `phone`, `password`, `role`, `c
 (2, 'rafat', 'rafat@gmail.com', '', 'c4ee6474f8fd46c343795bf9fbcd1bb3f9a6b147', 'company_admin', 1, '2026-11-12 19:26:49'),
 (4, 'touhid', 'touhid@gmail.com', '', 'cc4ed6830efc118d6b97e74bbc639637c411eafb', 'customer', NULL, '2026-11-06 10:43:26'),
 (12, 'moheuzzaman', 'mohe@gmail.com', '', '8cc8fc2d79549dc285b96f7e5a85c11735458faa', 'customer', NULL, '2026-11-10 12:32:32'),
-(13, 'korim', 'korim@gmail.com', '0193483', '478153ed370153e39ff185065c02d1fc5cfc536b', 'customer', NULL, '2026-11-10 12:41:39'),
+(13, 'korim', 'korim@gmail.com', '01735132240', '478153ed370153e39ff185065c02d1fc5cfc536b', 'customer', NULL, '2026-11-21 18:21:47'),
 (17, 'safwan', 'safwan@gmail.com', '320483294892', 'da39a3ee5e6b4b0d3255bfef95601890afd80709', '', 0, '2026-11-14 12:08:01'),
 (21, 'shoyaib', 'shoyaib@gmail.com', '647890', '71f74ac897254bdedc2bd6a8f72074bebc133691', 'company_admin', 1, '2026-11-14 12:18:25'),
 (24, 'shoyaib', 'sho@gmail.com', '647890', '71f74ac897254bdedc2bd6a8f72074bebc133691', 'company_admin', 1, '2026-11-14 12:21:17'),
@@ -506,13 +523,13 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
-  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `booking_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `booking_seats`
 --
 ALTER TABLE `booking_seats`
-  MODIFY `booking_seats` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `booking_seats` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `buses`
@@ -536,7 +553,7 @@ ALTER TABLE `cancellations`
 -- AUTO_INCREMENT for table `payments`
 --
 ALTER TABLE `payments`
-  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `payment_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `refunds`
@@ -554,7 +571,7 @@ ALTER TABLE `routes`
 -- AUTO_INCREMENT for table `schedules`
 --
 ALTER TABLE `schedules`
-  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `schedule_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `seats`
