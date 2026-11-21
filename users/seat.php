@@ -192,7 +192,7 @@ $seats = loadBusSeats($conn, $bus_id);
 
 <main class="wrap">
   <div class="head">
-    <a class="back" href="home.html">← Back to results</a>
+    <a class="back" href="home.php">← Back to results</a>
     <h1>Choose your seats</h1>
     <div class="muted">
          <?php echo htmlspecialchars($bus['bus_name']); ?>
